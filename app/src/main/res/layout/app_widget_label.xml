@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="45dp"
+    android:background="@color/colorPrimary"
+    android:weightSum="2">
+
+    <LinearLayout style="@style/ic_widget_layout_style"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/ic_widget_stars_tv"
+            style="@style/ic_widget_tv_style"
+            android:background="@drawable/ic_widget_stars" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/ic_widget_layout_style">
+
+        <TextView
+            android:id="@+id/ic_note_add_text_tv"
+            style="@style/ic_widget_tv_style"
+            android:background="@drawable/ic_note_add_text" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/ic_widget_layout_style"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/ic_record_notification_tv"
+            style="@style/ic_widget_tv_style"
+            android:background="@drawable/ic_record_notification" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/ic_widget_layout_style"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/ic_widget_write_tv"
+            style="@style/ic_widget_tv_style"
+            android:background="@drawable/ic_widget_write" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/ic_widget_layout_style">
+
+        <TextView
+            android:id="@+id/ic_widget_camera_tv"
+            style="@style/ic_widget_tv_style"
+            android:background="@drawable/ic_widget_camera" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/ic_widget_layout_style"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/ic_widget_menu_more_list_tv"
+            style="@style/ic_widget_tv_style"
+            android:background="@drawable/ic_widget_menu_more_list" />
+    </LinearLayout>
+</LinearLayout>

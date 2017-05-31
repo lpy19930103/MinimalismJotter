@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/title_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:paddingLeft="15dp"
+        android:paddingRight="20dp">
+
+        <View
+            android:id="@+id/note_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@mipmap/ab_back" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/ic_note_add_text_tv"
+                style="@style/ic_widget_tv_style"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/ic_note_add_text" />
+
+            <View
+                android:id="@+id/ic_widget_camera_tv"
+                style="@style/ic_widget_tv_style"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/ic_widget_camera" />
+
+            <View
+                android:id="@+id/ic_widget_menu_more_list_tv"
+                style="@style/ic_widget_tv_style"
+                android:background="@drawable/ic_widget_menu_more_list" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:id="@+id/show_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/edit_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/recorder_item"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <!--录音-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/record_stop"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:background="@drawable/record_stop" />
+
+                        <Chronometer
+                            android:id="@+id/record_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:format="%s" />
+                    </LinearLayout>
+                    <!--录音 end-->
+
+                    <View
+                        android:id="@+id/record_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#dedede" />
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/et_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:background="@null"
+                            android:gravity="start"
+                            android:hint="点击添加文本"
+                            android:lineSpacingExtra="4dp"
+                            android:minHeight="100dp" />
+
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/et_image_listview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+
+                        <!--音频信息-->
+                        <RelativeLayout
+                            android:id="@+id/voice_info_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#D7F7EC"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:id="@+id/voice_image"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginBottom="20dp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginTop="20dp"
+                                android:background="@drawable/voice_img" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="20dp"
+                                android:layout_toRightOf="@+id/voice_image"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/voice_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="abcd.3gpp"
+                                    android:textSize="@dimen/abc_text_size_menu_material" />
+
+                                <TextView
+                                    android:id="@+id/voice_size"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:text="大小：123K"
+                                    android:textSize="@dimen/abc_text_size_menu_material" />
+                            </LinearLayout>
+                        </RelativeLayout>
+                        <!--音频信息 end-->
+
+                        <!--音频播放-->
+                        <RelativeLayout
+                            android:id="@+id/voice_player_item"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="#D7F7EC"
+                            android:orientation="horizontal"
+                            android:visibility="gone">
+
+                            <ImageView
+                                android:id="@+id/voice_pause"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginBottom="20dp"
+                                android:layout_marginLeft="20dp"
+                                android:layout_marginTop="20dp"
+                                android:background="@drawable/record_pause" />
+
+                            <Chronometer
+                                android:id="@+id/play_time"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="20dp"
+                                android:format="%s" />
+
+                            <SeekBar
+                                android:id="@+id/voice_seekBar"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="20dp"
+                                android:layout_toLeftOf="@+id/play_time"
+                                android:layout_toRightOf="@+id/voice_pause" />
+                        </RelativeLayout>
+                        <!--音频播放 end-->
+
+                        <TextView
+                            android:id="@+id/tv_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:layout_marginTop="6dp"
+                            android:gravity="end"
+                            android:lineSpacingExtra="4dp"
+                            android:textSize="@dimen/abc_text_size_small_material"
+                            tool:text="015-5-25:14:01" />
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

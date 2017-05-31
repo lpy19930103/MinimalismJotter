@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">MinimalismJotter</string>
+    <string name="no_title">无标题</string>
+    <string name="before_hour" formatted="false">%d\u0020小时之前</string>
+    <string name="before_day" formatted="false">%d\u0020天之前</string>
+    <string name="before_month" formatted="false">%d\u0020个月之前</string>
+    <string name="before_year" formatted="false">%d\u0020年之前</string>
+    <string name="just_now">刚刚</string>
+    <string name="before_half_hour">半个小时之前</string>
+    <string name="create">创建</string>
+    <string name="last_update">最后更新</string>
+    <string name="note_log_text" formatted="false">%1$s\u0020:\u0020%2$s</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_share">Share</string>
+    <string name="action_edit">Edit</string>
+
+    <string name="open">打开</string>
+    <string name="close">关闭</string>
+
+    <string name="setting">设置</string>
+    <string name="setting_application">应用</string>
+    <string name="setting_account">账户</string>
+    <string name="setting_synchronous">同步选项</string>
+    <string name="setting_synchronous_detail">自动同步、仅Wi-Fi、同步图片大小</string>
+    <string name="setting_pwd_security">安全</string>
+    <string name="setting_pwd_lock">密码锁定</string>
+    <string name="setting_in_out">导入/导出</string>
+    <string name="setting_sd">从SD卡导入笔记本或导出笔记本到SD卡</string>
+    <string name="setting_remind">提醒</string>
+    <string name="setting_vibration">设置提醒铃声和震动</string>
+    <string name="setting_more">更多设置</string>
+    <string name="setting_size_font">主体、字体</string>
+    <string name="setting_other">其它</string>
+    <string name="setting_feedback">反馈</string>
+    <string name="setting_mail">通过邮件反馈</string>
+    <string name="setting_obout">关于</string>
+    <string name="setting_version_check">当前版本、检测更新、推荐</string>
+
+    <string name="edit_voice_size">大小：</string>
+
+    <string name="note_edit_pop_remind">提醒</string>
+    <string name="note_edit_pop_list">清单</string>
+    <string name="note_edit_pop_send">发送</string>
+    <string name="note_edit_pop_select">查找</string>
+    <string name="note_edit_pop_detail">详情</string>
+    <string name="note_edit_pop_delete">删除</string>
+
+    <string name="insufficient_permission">请到“设置->应用”中找到此应用，打开权限</string>
+
+    <string name="delete_accessory">删除附件</string>
+    <string name="need_delete">确定要删除吗？</string>
+    <string name="cancel">取消</string>
+    <string name="delete">删除</string>
+    <string name="delete_accessory_fail">删除失败</string>
+</resources>

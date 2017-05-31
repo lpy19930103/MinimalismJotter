@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:focusable="true"
+              android:focusableInTouchMode="true"
+              android:background="@color/white"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent">
+
+        <Button android:layout_width="wrap_content"
+            android:id="@+id/btn_save"
+            android:gravity="left"
+            android:visibility="gone"
+            android:textSize="20sp"
+            android:layout_marginRight="20dp"
+            android:background="@null"
+            android:layout_alignParentRight="true"
+            android:text="@string/setting"
+            android:layout_height="wrap_content"/>
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        style="@style/setting_title_text"
+        android:text="@string/setting_application" />
+
+    <LinearLayout
+        android:id="@+id/setting_account_l"
+        style="@style/setting_list_home_ll">
+
+    <ImageView
+        style="@style/setting_list_src"
+        android:background="@drawable/setting_account">
+    </ImageView>
+
+    <LinearLayout
+        style="@style/setting_list_linearLayout">
+
+        <TextView
+            style="@style/setting_list_title_text"
+            android:text="@string/setting_account"/>
+
+        <TextView
+            android:id="@+id/setting_account"
+            style="@style/setting_list_detail_text"
+            android:text="账户：lipengyuan1993@gmail.com"/>
+    </LinearLayout>
+</LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/setting_synchronous_l"
+        style="@style/setting_list_home_ll">
+
+        <ImageView
+            style="@style/setting_list_src"
+            android:background="@drawable/setting_synchronous">
+        </ImageView>
+
+        <LinearLayout
+            style="@style/setting_list_linearLayout">
+
+            <TextView
+                style="@style/setting_list_title_text"
+                android:text="@string/setting_synchronous"/>
+
+            <TextView
+                style="@style/setting_list_detail_text"
+                android:text="@string/setting_synchronous_detail"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/setting_pwd_lock_l"
+        style="@style/setting_list_home_ll">
+
+        <ImageView
+            style="@style/setting_list_src"
+            android:background="@drawable/setting_pwd_lock">
+        </ImageView>
+
+        <LinearLayout
+            style="@style/setting_list_linearLayout">
+
+            <TextView
+                android:id="@+id/textView"
+                style="@style/setting_list_title_text"
+                android:text="@string/setting_pwd_security" />
+
+            <TextView
+                style="@style/setting_list_detail_text"
+                android:text="@string/setting_pwd_lock"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/setting_input_output_l"
+        style="@style/setting_list_home_ll">
+
+        <ImageView
+            android:id="@+id/imageView"
+            style="@style/setting_list_src"
+            android:background="@drawable/setting_input_output"></ImageView>
+
+        <LinearLayout
+            style="@style/setting_list_linearLayout">
+
+            <TextView
+                style="@style/setting_list_title_text"
+                android:text="@string/setting_in_out"/>
+
+            <TextView
+                style="@style/setting_list_detail_text"
+                android:text="@string/setting_sd"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/setting_remind_l"
+        style="@style/setting_list_home_ll">
+
+        <ImageView
+            style="@style/setting_list_src"
+            android:background="@drawable/setting_remind">
+        </ImageView>
+
+        <LinearLayout
+            style="@style/setting_list_linearLayout">
+
+            <TextView
+                style="@style/setting_list_title_text"
+                android:text="@string/setting_remind"/>
+
+            <TextView
+                style="@style/setting_list_detail_text"
+                android:text="@string/setting_vibration"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/setting_more_l"
+        style="@style/setting_list_home_ll">
+
+        <ImageView
+            style="@style/setting_list_src"
+            android:background="@drawable/setting_more">
+        </ImageView>
+
+        <LinearLayout
+            style="@style/setting_list_linearLayout">
+
+            <TextView
+                style="@style/setting_list_title_text"
+                android:text="@string/setting_more"/>
+
+            <TextView
+                style="@style/setting_list_detail_text"
+                android:text="@string/setting_size_font"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        style="@style/setting_title_text"
+        android:text="@string/setting_other"/>
+
+    <LinearLayout
+        android:id="@+id/setting_feedback_l"
+        style="@style/setting_list_home_ll">
+
+        <ImageView
+            style="@style/setting_list_src"
+            android:background="@drawable/setting_feedback">
+        </ImageView>
+
+        <LinearLayout
+            style="@style/setting_list_linearLayout">
+
+            <TextView
+                style="@style/setting_list_title_text"
+                android:text="@string/setting_feedback"/>
+
+            <TextView
+                style="@style/setting_list_detail_text"
+                android:text="@string/setting_mail"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/setting_about_l"
+        style="@style/setting_list_home_ll">
+
+        <ImageView
+            style="@style/setting_list_src"
+            android:background="@drawable/setting_about">
+        </ImageView>
+
+        <LinearLayout
+            style="@style/setting_list_linearLayout">
+
+            <TextView
+                style="@style/setting_list_title_text"
+                android:text="@string/setting_obout"/>
+
+            <TextView
+                style="@style/setting_list_detail_text"
+                android:text="@string/setting_version_check"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

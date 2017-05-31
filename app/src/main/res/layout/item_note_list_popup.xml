@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_note_list"
+            style="@style/note_edit_popup_text"
+            android:text="列表" />
+
+        <!--<TextView-->
+            <!--android:id="@+id/tv_note_card"-->
+            <!--style="@style/note_edit_popup_text"-->
+            <!--android:layout_below="@id/tv_note_list"-->
+            <!--android:text="卡片" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/tv_note_send"-->
+            <!--style="@style/note_edit_popup_text"-->
+            <!--android:layout_below="@+id/tv_note_list"-->
+            <!--android:text="@string/note_edit_pop_send" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/tv_note_select"-->
+            <!--style="@style/note_edit_popup_text"-->
+            <!--android:layout_below="@+id/tv_note_send"-->
+            <!--android:text="@string/note_edit_pop_select" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/tv_note_detail"-->
+            <!--style="@style/note_edit_popup_text"-->
+            <!--android:layout_below="@+id/tv_note_select"-->
+            <!--android:text="@string/note_edit_pop_detail" />-->
+
+        <!--<TextView-->
+            <!--android:id="@+id/tv_note_delete"-->
+            <!--style="@style/note_edit_popup_text"-->
+            <!--android:layout_below="@+id/tv_note_detail"-->
+            <!--android:text="@string/note_edit_pop_delete" />-->
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
