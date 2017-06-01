@@ -30,7 +30,7 @@ public class GalleryActivity extends Activity {
 
     private Intent intent;
     // 返回按钮
-    private Button back_bt;
+    private View back_bt;
     // 发送按钮
     private Button send_bt;
     //删除按钮
@@ -61,27 +61,27 @@ public class GalleryActivity extends Activity {
         setContentView(R.layout.gallery);
 
         mContext = this;
-        back_bt = (Button) findViewById(R.id.gallery_back);
+        back_bt = findViewById(R.id.gallery_back);
         send_bt = (Button) findViewById(R.id.send_button);
-        del_bt = (Button)findViewById(R.id.gallery_del);
+        del_bt = (Button) findViewById(R.id.gallery_del);
         rlBottom = (RelativeLayout) findViewById(R.id.bottom_layout);
         back_bt.setOnClickListener(new BackListener());
         send_bt.setOnClickListener(new GallerySendListener());
         del_bt.setOnClickListener(new DelListener());
         intent = getIntent();
         Bundle bundle = intent.getExtras();
-        location = intent.getIntExtra("ID",0);
-            del_bt.setVisibility(View.GONE);
-            rlBottom.setVisibility(View.GONE);
+        location = intent.getIntExtra("ID", 0);
+        del_bt.setVisibility(View.GONE);
+        rlBottom.setVisibility(View.GONE);
         isShowOkBt();
         // 为发送按钮设置文字
 
         pager = (ViewPagerFixed) findViewById(R.id.gallery01);
         pager.setOnPageChangeListener(pageChangeListener);
         for (int i = 0; i < Bimp.tempSelectBitmap.size(); i++) {
-            initListViews( Bimp.tempSelectBitmap.get(i).getBitmap() );
+            initListViews(Bimp.tempSelectBitmap.get(i).getBitmap());
         }
-        adapter = new MyPageAdapter(listViews,GalleryActivity.this);
+        adapter = new MyPageAdapter(listViews, GalleryActivity.this);
         pager.setAdapter(adapter);
         pager.setPageMargin(getResources().getDimensionPixelOffset(R.dimen.ui_10_dip));
         int id = intent.getIntExtra("ID", 0);
@@ -122,7 +122,7 @@ public class GalleryActivity extends Activity {
             if (listViews.size() == 1) {
                 Bimp.tempSelectBitmap.clear();
                 Bimp.max = 0;
-                send_bt.setText("完成"+"(" + Bimp.tempSelectBitmap.size() + "/"+ 9+")");
+                send_bt.setText("完成" + "(" + Bimp.tempSelectBitmap.size() + "/" + 9 + ")");
                 Intent intent = new Intent("data.broadcast.action");
                 sendBroadcast(intent);
                 finish();
@@ -132,11 +132,12 @@ public class GalleryActivity extends Activity {
                 pager.removeAllViews();
                 listViews.remove(location);
                 adapter.setListViews(listViews);
-                send_bt.setText("完成"+"(" + Bimp.tempSelectBitmap.size() + "/"+ 9+")");
+                send_bt.setText("完成" + "(" + Bimp.tempSelectBitmap.size() + "/" + 9 + ")");
                 adapter.notifyDataSetChanged();
             }
         }
     }
+
     private void initListViews(Bitmap bm) {
         if (listViews == null)
             listViews = new ArrayList<View>();
@@ -147,6 +148,7 @@ public class GalleryActivity extends Activity {
                 ViewGroup.LayoutParams.MATCH_PARENT));
         listViews.add(img);
     }
+
     // 完成按钮的监听
     private class GallerySendListener implements View.OnClickListener {
         public void onClick(View v) {
@@ -157,7 +159,7 @@ public class GalleryActivity extends Activity {
 
     public void isShowOkBt() {
         if (Bimp.tempSelectBitmap.size() > 0) {
-            send_bt.setText("完成"+"(" + Bimp.tempSelectBitmap.size() + "/"+ 9+")");
+            send_bt.setText("完成" + "(" + Bimp.tempSelectBitmap.size() + "/" + 9 + ")");
             send_bt.setPressed(true);
             send_bt.setClickable(true);
             send_bt.setTextColor(Color.WHITE);

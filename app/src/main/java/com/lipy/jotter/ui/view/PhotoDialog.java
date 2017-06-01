@@ -1,9 +1,12 @@
 package com.lipy.jotter.ui.view;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -35,7 +38,6 @@ public class PhotoDialog extends Dialog implements View.OnClickListener {
                     .placeholder(mContext.getResources().getDrawable(R.drawable.image_loading))
                     .error(mContext.getResources().getDrawable(R.drawable.image_loading))
                     .crossFade()
-                    .fitCenter()
                     .skipMemoryCache(true).//跳过内存缓存
                     diskCacheStrategy(DiskCacheStrategy.RESULT)//保存最终图片
                     .into(photoImage);
@@ -61,5 +63,16 @@ public class PhotoDialog extends Dialog implements View.OnClickListener {
                 dismiss();
                 break;
         }
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        WindowManager windowManager = ((Activity) mContext).getWindowManager();
+        Display display = windowManager.getDefaultDisplay();
+        WindowManager.LayoutParams lp = this.getWindow().getAttributes();
+        lp.width = display.getWidth(); //设置宽度
+        lp.height = display.getHeight();
+        this.getWindow().setAttributes(lp);
     }
 }

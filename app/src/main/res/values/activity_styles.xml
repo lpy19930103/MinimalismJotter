@@ -67,6 +67,8 @@
         <!-- 至关重要 -->
         <item name="android:colorBackgroundCacheHint">@null</item>
         <item name="android:windowFrame">@null</item>
+
+        <item name="android:windowFullscreen">true</item>
     </style>
 
 </resources>

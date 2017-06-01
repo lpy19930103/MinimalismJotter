@@ -378,6 +378,7 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
                         if (FileUtils.deleteFile((String) listImage.get(picIndex))) {
                             listImage.remove(picIndex);
                             ImageUtils.INSTANCE.setImage(NoteEditActivity.this, (String) listImage.get(picIndex), showImage, 0);
+                            mNoteImageAdapter.notifyDataSetChanged();
                         } else {
                             Toast.makeText(NoteEditActivity.this, R.string.delete_accessory_fail, Toast.LENGTH_SHORT).show();
                         }
