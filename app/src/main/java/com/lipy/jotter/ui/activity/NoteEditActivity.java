@@ -42,7 +42,6 @@ import com.lipy.jotter.ui.view.PhotoDialog;
 import com.lipy.jotter.ui.view.pic.AlbumActivity;
 import com.lipy.jotter.ui.view.pic.popwindow.SelectPicPopupWindow;
 import com.lipy.jotter.utils.FileUtils;
-import com.lipy.jotter.utils.FullyLinearLayoutManager;
 import com.lipy.jotter.utils.ImageUtils;
 import com.lipy.jotter.utils.Logger;
 import com.lipy.jotter.utils.PermissionUtils;
