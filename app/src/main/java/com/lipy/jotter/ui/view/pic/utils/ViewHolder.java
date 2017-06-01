@@ -9,13 +9,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.lipy.jotter.R;
+
+import java.io.File;
+
 public class ViewHolder {
     private final SparseArray<View> mViews;
     private int mPosition;
     private View mConvertView;
+    private Context mContext;
 
     private ViewHolder(Context context, ViewGroup parent, int layoutId,
                        int position) {
+        mContext = context;
         this.mPosition = position;
         this.mViews = new SparseArray<View>();
         mConvertView = LayoutInflater.from(context).inflate(layoutId, parent,
@@ -111,7 +119,15 @@ public class ViewHolder {
      * @return
      */
     public ViewHolder setImageByUrl(int viewId, String url) {
-        ImageLoader.getInstance(3, ImageLoader.Type.LIFO).loadImage(url, (ImageView) getView(viewId));
+        Glide.with(mContext)
+                .load(new File(url))
+                .placeholder(mContext.getResources().getDrawable(R.drawable.image_loading))
+                .error(mContext.getResources().getDrawable(R.drawable.image_loading))
+                .crossFade()
+                .fitCenter()
+                .skipMemoryCache(true).//跳过内存缓存
+                diskCacheStrategy(DiskCacheStrategy.RESULT)//保存最终图片
+                .into((ImageView) getView(viewId));
         return this;
     }
 
