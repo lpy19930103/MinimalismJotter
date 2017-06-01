@@ -4,22 +4,28 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.*
 import android.widget.*
+import com.evernote.client.android.EvernoteSession
+import com.evernote.edam.type.User
 import com.lipy.jotter.R
-import com.lipy.jotter.ui.fragment.NoteListFragment
-import com.lipy.jotter.ui.adapter.ToggleMenuAdapter
-import com.lipy.jotter.dao.daocore.Note
 import com.lipy.jotter.dao.NoteService
+import com.lipy.jotter.dao.daocore.Note
+import com.lipy.jotter.ui.adapter.ToggleMenuAdapter
+import com.lipy.jotter.ui.fragment.NoteListFragment
+import com.lipy.jotter.utils.EvernoteManager
 import java.util.*
 
 /**
  * 首页
  * Created by lipy on 2017/3/6.
  */
-class NoteListActivity : AppCompatActivity(), View.OnClickListener {
+class NoteListActivity : BaseActivity(), View.OnClickListener, EvernoteManager.EvernoteListener {
+
+    override fun getUser(user: User) {
+        (findViewById(R.id.tv_cancle) as TextView).text = user.username
+    }
 
 
     private var mToolbar: Toolbar? = null
@@ -87,6 +93,13 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
         mToolbar = findViewById(R.id.toolbar) as Toolbar?
         mToolbar!!.title = "全部笔记"
         setSupportActionBar(mToolbar)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (EvernoteSession.getInstance().isLoggedIn) {
+            EvernoteManager.getInstance()!!.setEvernoteListener(this)!!.getUser()
+        }
     }
 
     /**
@@ -184,9 +197,10 @@ class NoteListActivity : AppCompatActivity(), View.OnClickListener {
 
     }
 
+
     private fun gotoGuide() {
-//        val intent = Intent(this, GuideActivity::class.java)
-//        startActivity(intent)
+        val intent = Intent(this, GuideActivity::class.java)
+        startActivity(intent)
     }
 
     private fun gotoSetting() {

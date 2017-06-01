@@ -101,6 +101,9 @@
         <activity
                 android:name=".ui.activity.GuideActivity"
                 android:screenOrientation="portrait" />
+
+        <activity android:name="com.evernote.client.android.EvernoteOAuthActivity" />
+        <activity android:name="com.evernote.client.android.login.EvernoteLoginActivity"/>
     </application>
 
 </manifest>

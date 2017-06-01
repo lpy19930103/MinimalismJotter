@@ -1,6 +1,5 @@
 package com.lipy.jotter.ui.activity
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -11,7 +10,7 @@ import com.lipy.jotter.R
  * 设置功能主页面
  * Created by lipy on 2017/3/29.
  */
-class SettingActivity : Activity(), View.OnClickListener {
+class SettingActivity : BaseActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

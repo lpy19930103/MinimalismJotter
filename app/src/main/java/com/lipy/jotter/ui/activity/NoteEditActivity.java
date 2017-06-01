@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -35,6 +34,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lipy.jotter.R;
 import com.lipy.jotter.constants.Constant;
+import com.lipy.jotter.dao.DaoHelper;
 import com.lipy.jotter.dao.NoteService;
 import com.lipy.jotter.dao.daocore.Note;
 import com.lipy.jotter.ui.adapter.NoteImageAdapter;
@@ -62,7 +62,7 @@ import static com.lipy.jotter.constants.StorageConfig.creatVoiceFile;
  * 写笔记
  * Created by lipy on 2017/3/6.
  */
-public class NoteEditActivity extends AppCompatActivity implements View.OnClickListener ,OnImageClickListener{
+public class NoteEditActivity extends BaseActivity implements View.OnClickListener ,OnImageClickListener{
 
     private EditText mEtContent;
     private RelativeLayout titleItem;
@@ -458,6 +458,7 @@ public class NoteEditActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         //popup的点击事件处理
         if (v.getId() == R.id.tv_note_remind) {
+            DaoHelper.loadAll();
             Toast.makeText(this, "提醒", Toast.LENGTH_SHORT).show();
         } else if (v.getId() == R.id.tv_note_list) {
 
