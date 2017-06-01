@@ -8,15 +8,17 @@
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
-    <uses-permission android:name="android.permission.BODY_SENSORS"/>
-    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
+    <uses-permission android:name="android.permission.BODY_SENSORS" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -74,12 +76,14 @@
                 android:resource="@xml/app_widget_notes" />
         </receiver>
 
-        <service android:name="com.lipy.jotter.ui.appwidget.NotesWidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"
-            android:exported="false" >
-        </service>
+        <service
+            android:name="com.lipy.jotter.ui.appwidget.NotesWidgetService"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS"></service>
 
-        <activity android:name=".ui.activity.NoteEditActivity">
+        <activity
+            android:name=".ui.activity.NoteEditActivity"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="com.lipy.jotter.app.NoteEditActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -99,11 +103,13 @@
             android:name=".ui.activity.SettingActivity"
             android:screenOrientation="portrait" />
         <activity
-                android:name=".ui.activity.GuideActivity"
-                android:screenOrientation="portrait" />
+            android:name=".ui.activity.GuideActivity"
+            android:screenOrientation="portrait" />
 
         <activity android:name="com.evernote.client.android.EvernoteOAuthActivity" />
-        <activity android:name="com.evernote.client.android.login.EvernoteLoginActivity"/>
+        <activity android:name="com.evernote.client.android.login.EvernoteLoginActivity" />
+        <activity android:name="com.lipy.jotter.ui.view.pic.AlbumActivity" />
+        <activity android:name="com.lipy.jotter.ui.view.pic.GalleryActivity" />
     </application>
 
 </manifest>

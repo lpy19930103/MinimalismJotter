@@ -24,7 +24,7 @@ import java.util.*
 class NoteListActivity : BaseActivity(), View.OnClickListener, EvernoteManager.EvernoteListener {
 
     override fun getUser(user: User) {
-        (findViewById(R.id.tv_cancle) as TextView).text = user.username
+        (findViewById(R.id.tv_cancle) as TextView).text = "Evernote：" + user.username
     }
 
 

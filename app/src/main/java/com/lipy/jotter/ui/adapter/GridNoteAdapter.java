@@ -46,7 +46,7 @@ public class GridNoteAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new DefaultViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item, parent, false));
+        return new DefaultViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_note, parent, false));
     }
 
     @Override

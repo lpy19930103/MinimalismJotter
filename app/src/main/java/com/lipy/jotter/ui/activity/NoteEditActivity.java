@@ -13,11 +13,11 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Chronometer;
@@ -30,8 +30,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lipy.jotter.R;
 import com.lipy.jotter.constants.Constant;
 import com.lipy.jotter.dao.DaoHelper;
@@ -40,8 +38,12 @@ import com.lipy.jotter.dao.daocore.Note;
 import com.lipy.jotter.ui.adapter.NoteImageAdapter;
 import com.lipy.jotter.ui.appwidget.AppWidgetNotesProvider;
 import com.lipy.jotter.ui.listener.OnImageClickListener;
+import com.lipy.jotter.ui.view.PhotoDialog;
+import com.lipy.jotter.ui.view.pic.AlbumActivity;
+import com.lipy.jotter.ui.view.pic.popwindow.SelectPicPopupWindow;
 import com.lipy.jotter.utils.FileUtils;
 import com.lipy.jotter.utils.FullyLinearLayoutManager;
+import com.lipy.jotter.utils.ImageUtils;
 import com.lipy.jotter.utils.Logger;
 import com.lipy.jotter.utils.PermissionUtils;
 import com.lipy.jotter.utils.RecoderManager;
@@ -54,6 +56,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.lipy.jotter.constants.Constant.EDIT_TO_LAUNCH_CAMERA;
 import static com.lipy.jotter.constants.StorageConfig.creatPicFile;
 import static com.lipy.jotter.constants.StorageConfig.creatVoiceFile;
 
@@ -62,7 +65,7 @@ import static com.lipy.jotter.constants.StorageConfig.creatVoiceFile;
  * 写笔记
  * Created by lipy on 2017/3/6.
  */
-public class NoteEditActivity extends BaseActivity implements View.OnClickListener ,OnImageClickListener{
+public class NoteEditActivity extends BaseActivity implements View.OnClickListener, OnImageClickListener {
 
     private EditText mEtContent;
     private RelativeLayout titleItem;
@@ -160,6 +163,7 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         }
     };
     private NoteImageAdapter mNoteImageAdapter;
+    private PhotoDialog mPhotoDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -214,7 +218,6 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         recodTime = (Chronometer) findViewById(R.id.record_time);
         mEtContent = (EditText) findViewById(R.id.et_content);
         mTvTime = (TextView) findViewById(R.id.tv_time);
-        FullyLinearLayoutManager fullyLinearLayoutManager = new FullyLinearLayoutManager(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         imageListView = (RecyclerView) findViewById(R.id.et_image_listview);
         imageListView.setLayoutManager(linearLayoutManager);
@@ -229,6 +232,7 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         mMenuMoreView.setOnClickListener(OnMenuMoreCheck);
         mCameraView = findViewById(R.id.ic_widget_camera_tv);
         mCameraView.setOnClickListener(this);
+        mPhotoDialog = new PhotoDialog(this);
 
         if (noteMode == Constant.CREATE_NOTE_FROM_RECODER_MODE) {
             titleItem.setVisibility(View.GONE);
@@ -300,6 +304,7 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
 
     private void showImgList(boolean showImgList) {
         if (showImgList) {//展示图片列表
+            dissmissPhotoDialog();
             mAddNoteView.setVisibility(View.VISIBLE);
             mCameraView.setVisibility(View.VISIBLE);
             showImage.setVisibility(View.GONE);
@@ -307,12 +312,20 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
             mMenuMoreView.setBackgroundResource(R.drawable.ic_widget_menu_more_list);
             mNoteImageAdapter.notifyDataSetChanged();
         } else {//展示大图
-            mAddNoteView.setVisibility(View.GONE);
-            mCameraView.setVisibility(View.GONE);
-            showImage.setVisibility(View.VISIBLE);
-            imageListView.setVisibility(View.GONE);
-            setImage((String) listImage.get(picIndex), showImage, 0);
-            mMenuMoreView.setBackgroundResource(R.drawable.ic_delete_pic);
+//            mAddNoteView.setVisibility(View.GONE);
+//            mCameraView.setVisibility(View.GONE);
+//            showImage.setVisibility(View.VISIBLE);
+//            imageListView.setVisibility(View.GONE);
+//            ImageUtils.INSTANCE.setImage(this, (String) listImage.get(picIndex), showImage, 0);
+            mPhotoDialog.setImagePath((String) listImage.get(picIndex));
+            mPhotoDialog.show();
+//            mMenuMoreView.setBackgroundResource(R.drawable.ic_delete_pic);
+        }
+    }
+
+    private void dissmissPhotoDialog() {
+        if (mPhotoDialog != null && mPhotoDialog.isShowing()) {
+            mPhotoDialog.dismiss();
         }
     }
 
@@ -365,7 +378,7 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
                     public void onClick(DialogInterface dialog, int which) {
                         if (FileUtils.deleteFile((String) listImage.get(picIndex))) {
                             listImage.remove(picIndex);
-                            setImage((String) listImage.get(picIndex), showImage, 0);
+                            ImageUtils.INSTANCE.setImage(NoteEditActivity.this, (String) listImage.get(picIndex), showImage, 0);
                         } else {
                             Toast.makeText(NoteEditActivity.this, R.string.delete_accessory_fail, Toast.LENGTH_SHORT).show();
                         }
@@ -473,12 +486,8 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         } else if (v.getId() == R.id.ic_widget_camera_tv) {
             //拍照
             if (PermissionUtils.isAllowUseCamera(this.getPackageManager())) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                imageFile = creatPicFile(this);
-                Logger.INSTANCE.i("NoteEditActivity---imageFile: " + imageFile);
-                Uri imageUri = Uri.fromFile(imageFile);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                startActivityForResult(intent, Constant.EDIT_TO_LAUNCH_CAMERA);
+                selectImgs();
+
             } else {
                 List<String> mPermissions = new ArrayList<>();
                 mPermissions.add(Manifest.permission.CAMERA);
@@ -510,12 +519,29 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Toast.makeText(NoteEditActivity.this, "显示相册图片", Toast.LENGTH_SHORT).show();
-        if (resultCode == -1 && requestCode == Constant.EDIT_TO_LAUNCH_CAMERA) {
-            imageListView.setVisibility(View.VISIBLE);
-            listImage.add(0, imageFile.toString());
-            mNoteImageAdapter.notifyDataSetChanged();
-        } else {
-            finish();
+        switch (requestCode) {
+            case EDIT_TO_LAUNCH_CAMERA:
+                if (resultCode == RESULT_OK) {
+                    imageListView.setVisibility(View.VISIBLE);
+                    listImage.add(0, imageFile.toString());
+                    mNoteImageAdapter.notifyDataSetChanged();
+                }
+                break;
+
+            case TAKE_PICTURE:
+                if (resultCode == RESULT_OK) {
+                    ArrayList<String> paths = (ArrayList) data.getSerializableExtra("IMAGE_PATHS");
+                    for (String path : paths) {
+                        if (!listImage.contains(path)) {
+                            listImage.add(0, path);
+                        }
+                    }
+                    mNoteImageAdapter.notifyDataSetChanged();
+                }
+                break;
+            default:
+                finish();
+                break;
         }
     }
 
@@ -524,31 +550,6 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         picIndex = position;
         showImgList(false);
     }
-
-
-    private void setImage(String path, ImageView imageView, int h) {
-        WindowManager wm = this.getWindowManager();
-        int width = wm.getDefaultDisplay().getWidth();
-        int high = wm.getDefaultDisplay().getHeight();
-        if (h == 0) {
-            h = high;
-        }
-
-        Logger.INSTANCE.i("NoteEditActivity----(new File(path): " + new File(path));
-        if (StringUtils.isNotEmpty(path)) {
-            Glide.with(this)
-                    .load(new File(path))
-                    .override(width, h)
-                    .centerCrop()
-                    .placeholder(getResources().getDrawable(R.drawable.record_play))
-                    .error(getResources().getDrawable(R.drawable.record_play))
-                    .crossFade()
-                    .skipMemoryCache(true).//跳过内存缓存
-                    diskCacheStrategy(DiskCacheStrategy.RESULT)//保存最终图片
-                    .into(imageView);
-        }
-    }
-
 
 
     /**
@@ -562,5 +563,44 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         intent.putExtra(Constant.INTENT_NOTE, note);
         intent.putExtra(Constant.INTENT_NOTE_MODE, mode);
         activity.startActivity(intent);
+    }
+
+    private SelectPicPopupWindow menuWindow;
+
+    private void selectImgs() {
+        ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        menuWindow = new SelectPicPopupWindow(NoteEditActivity.this, itemsOnClick);
+        //设置弹窗位置
+        menuWindow.showAtLocation(findViewById(R.id.note_edit_group), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+    }
+
+    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
+        public void onClick(View v) {
+            menuWindow.dismiss();
+            switch (v.getId()) {
+                case R.id.item_popupwindows_camera:        //点击拍照按钮
+                    goCamera();
+                    break;
+                case R.id.item_popupwindows_Photo:       //点击从相册中选择按钮
+                    Intent intent = new Intent(NoteEditActivity.this,
+                            AlbumActivity.class);
+                    startActivityForResult(intent, TAKE_PICTURE);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+    };
+
+    private static final int TAKE_PICTURE = 0;
+
+    private void goCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        imageFile = creatPicFile(this);
+        Logger.INSTANCE.i("NoteEditActivity---imageFile: " + imageFile);
+        Uri imageUri = Uri.fromFile(imageFile);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(intent, EDIT_TO_LAUNCH_CAMERA);
     }
 }

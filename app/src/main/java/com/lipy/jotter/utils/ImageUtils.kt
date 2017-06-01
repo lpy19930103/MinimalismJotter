@@ -1,11 +1,13 @@
 package com.lipy.jotter.utils
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.view.WindowManager
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.lipy.jotter.R
 import java.io.File
 
@@ -66,5 +68,30 @@ object ImageUtils {
         bm = BitmapFactory.decodeFile(absolutePath, opt)
 
         return bm
+    }
+
+
+    fun setImage(activity: Activity, path: String, imageView: ImageView, h: Int) {
+        var h = h
+        val wm = activity.getWindowManager()
+        val width = wm.getDefaultDisplay().getWidth()
+        val high = wm.getDefaultDisplay().getHeight()
+        if (h == 0) {
+            h = high
+        }
+
+        Logger.i("NoteEditActivity----(new File(path): " + File(path))
+        if (StringUtils.isNotEmpty(path)) {
+            Glide.with(activity)
+                    .load(File(path))
+                    .override(width, h)
+                    .centerCrop()
+                    .placeholder(activity.getResources().getDrawable(R.drawable.image_loading))
+                    .error(activity.getResources().getDrawable(R.drawable.image_loading))
+                    .crossFade()
+                    .skipMemoryCache(true).//跳过内存缓存
+                    diskCacheStrategy(DiskCacheStrategy.RESULT)//保存最终图片
+                    .into(imageView)
+        }
     }
 }

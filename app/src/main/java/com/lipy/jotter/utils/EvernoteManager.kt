@@ -13,7 +13,7 @@ import io.reactivex.schedulers.Schedulers
  * Created by lipy on 2017/5/31.
  */
 
-class EvernoteManager private constructor() {
+class EvernoteManager  {
 
     private var mEvernoteListener: EvernoteListener? = null
 

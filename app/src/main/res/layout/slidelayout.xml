@@ -27,12 +27,12 @@
                         android:id="@+id/iv_search"
                         android:layout_alignParentLeft="true"
                         style="@style/slid_title_iv_style"
-                        android:src="@drawable/default_photo_light"/>
+                        android:src="@mipmap/ic_edit_white"/>
 
                 <TextView
                         android:id="@+id/tv_cancle"
                         style="@style/slid_item_tv_style"
-                        android:textColor="#666666"
+                        android:textColor="@color/white"
                         android:layout_toRightOf="@id/iv_search"
                         android:text="登录或注册"/>
             </RelativeLayout>
