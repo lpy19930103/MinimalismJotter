@@ -3,6 +3,7 @@ package com.lipy.jotter.dao.daocore;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.Map;
+
 import de.greenrobot.dao.AbstractDao;
 import de.greenrobot.dao.AbstractDaoSession;
 import de.greenrobot.dao.identityscope.IdentityScopeType;
@@ -13,15 +14,15 @@ import de.greenrobot.dao.internal.DaoConfig;
 /**
  * {@inheritDoc}
  * 
- * @see AbstractDaoSession
+ * @see de.greenrobot.dao.AbstractDaoSession
  */
 public class DaoSession extends AbstractDaoSession {
 
     private final DaoConfig noteDaoConfig;
-    private final DaoConfig userDaoConfig;
+    private final DaoConfig tagDaoConfig;
 
     private final NoteDao noteDao;
-    private final UserDao userDao;
+    private final TagDao tagDao;
 
     public DaoSession(SQLiteDatabase db, IdentityScopeType type, Map<Class<? extends AbstractDao<?, ?>>, DaoConfig>
             daoConfigMap) {
@@ -30,27 +31,27 @@ public class DaoSession extends AbstractDaoSession {
         noteDaoConfig = daoConfigMap.get(NoteDao.class).clone();
         noteDaoConfig.initIdentityScope(type);
 
-        userDaoConfig = daoConfigMap.get(UserDao.class).clone();
-        userDaoConfig.initIdentityScope(type);
+        tagDaoConfig = daoConfigMap.get(TagDao.class).clone();
+        tagDaoConfig.initIdentityScope(type);
 
         noteDao = new NoteDao(noteDaoConfig, this);
-        userDao = new UserDao(userDaoConfig, this);
+        tagDao = new TagDao(tagDaoConfig, this);
 
         registerDao(Note.class, noteDao);
-        registerDao(User.class, userDao);
+        registerDao(Tag.class, tagDao);
     }
     
     public void clear() {
         noteDaoConfig.getIdentityScope().clear();
-        userDaoConfig.getIdentityScope().clear();
+        tagDaoConfig.getIdentityScope().clear();
     }
 
     public NoteDao getNoteDao() {
         return noteDao;
     }
 
-    public UserDao getUserDao() {
-        return userDao;
+    public TagDao getTagDao() {
+        return tagDao;
     }
 
 }

@@ -8,7 +8,7 @@ public class NoteDaoGenerator {
     public static void main(String[] args) throws Exception {
         Schema schema = new Schema(1, "greendao");
         addNote(schema);
-        new DaoGenerator().generateAll(schema, "E:/TrifleNote/app/src/main/java-green");
+        new DaoGenerator().generateAll(schema, "/Users/lipy/Documents/MinimalismJotter/dao/src/main/java");
     }
 
     /**
@@ -28,9 +28,8 @@ public class NoteDaoGenerator {
         note.addLongProperty("createTime");//创建时间
         note.addLongProperty("lastOprTime");//最后修改时间
 
-        Entity user = schema.addEntity("User");//创建用户表格
+        Entity user = schema.addEntity("Tag");//标签类型
         user .addIdProperty();
-        user.addStringProperty("userName").notNull();//用户名称
-        user.addStringProperty("userpassword").notNull();//用户密码
+        user.addStringProperty("tag").notNull();
     }
 }
