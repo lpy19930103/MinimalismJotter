@@ -274,6 +274,10 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
     private void saveNote() {
         String title;
         String content = mEtContent.getText().toString().trim();
+        if (StringUtils.isEmpty(content) && (listImage == null || listImage.size() < 1)) {
+            finish();
+            return;
+        }
         if (StringUtils.isNotEmpty(content)) {
             if (content.contains("\n")) {
                 title = content.split("\n")[0];
