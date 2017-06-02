@@ -79,19 +79,19 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/more_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end">
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/more_menu"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="end">-->
 
-            <View
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/setting_more" />
+            <!--<View-->
+                <!--android:layout_width="24dp"-->
+                <!--android:layout_height="24dp"-->
+                <!--android:layout_margin="10dp"-->
+                <!--android:background="@drawable/setting_more" />-->
 
-        </RelativeLayout>
+        <!--</RelativeLayout>-->
     </android.support.v7.widget.CardView>
 
 </RelativeLayout>

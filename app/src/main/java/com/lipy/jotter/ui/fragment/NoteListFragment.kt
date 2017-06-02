@@ -20,7 +20,7 @@ import com.lipy.jotter.ui.activity.NoteEditActivity
 import com.lipy.jotter.ui.adapter.GridNoteAdapter
 import com.lipy.jotter.ui.adapter.NoteAdapter
 import com.lipy.jotter.ui.appwidget.AppWidgetNotesProvider
-import com.lipy.jotter.ui.listener.OnItemClickListener
+import com.lipy.jotter.ui.listener.OnNoteItemClickListener
 import com.lipy.jotter.utils.Logger
 import java.util.*
 
@@ -99,7 +99,7 @@ class NoteListFragment : Fragment() {
     }
 
 
-    private val onItemClickListener = object : OnItemClickListener {
+    private val onItemClickListener = object : OnNoteItemClickListener {
         override fun onItemClick(position: Int) {
             go2Edit(mNotes[position])
         }
@@ -109,7 +109,7 @@ class NoteListFragment : Fragment() {
         }
 
         override fun onDeleteClick(position: Int) {
-            deleteNote(mNotes[position])
+            deleteNote(position)
         }
 
     }
@@ -127,7 +127,7 @@ class NoteListFragment : Fragment() {
     private fun notifyData() {
         mNotes.clear()
         val list = NoteService.loadAll()
-        for (note in list){
+        for (note in list) {
             mNotes.add(note)
         }
 //        for (i in list.indices.reversed()) {
@@ -157,9 +157,10 @@ class NoteListFragment : Fragment() {
     /**
      * 删除
      */
-    private fun deleteNote(note: Note) {
+    private fun deleteNote(position: Int) {
+        val note = mNotes[position]
         mNotes.remove(note)
         NoteService.deleteNote(note)
-        notifyData()
+        mNoteAdapter!!.notifyItemRemoved(position)
     }
 }

@@ -29,8 +29,8 @@ public class Constant {
      */
     public final static int CREATE_NOTE_FROM_RECODER_MODE = 0x03;
     //笔记分类类型
-    public final static int NOTE_TYPE_EVERYDAY_LIFE= 1;
-    public final static int NOTE_TYPE_EVERYDAY_HOBBY =2;
+    public final static int NOTE_TYPE_EVERYDAY_LIFE = 1;
+    public final static int NOTE_TYPE_EVERYDAY_HOBBY = 2;
     public final static int NOTE_TYPE_EVERYDAY_WORK = 3;
     public final static int NOTE_TYPE_EVERYDAY_COOK = 4;
 
@@ -40,9 +40,9 @@ public class Constant {
     public final static String LUNCH_RECODER = "RECODER";
 
     //小部件的HandleMsgActivity跳转到camera的requestCode
-    public static final int HANDLE_MSG_TO_LAUNCH_CAMERA= 1000;
+    public static final int HANDLE_MSG_TO_LAUNCH_CAMERA = 1000;
     //NoteEditActivity跳转到camera的requestCode
-    public static final int EDIT_TO_LAUNCH_CAMERA= 2000;
+    public static final int EDIT_TO_LAUNCH_CAMERA = 2000;
     //设置chronometer的计时方式
     public static final int CHRONOMETER_START = 1;
     public static final int CHRONOMETER_STOP = 2;

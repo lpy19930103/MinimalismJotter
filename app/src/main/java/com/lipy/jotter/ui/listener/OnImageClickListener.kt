@@ -5,5 +5,6 @@ package com.lipy.jotter.ui.listener
  */
 
 interface OnImageClickListener {
-    fun onClick(position: Int)
+    fun onImageClick(position: Int)
+    fun onImageDelete(url: String)
 }

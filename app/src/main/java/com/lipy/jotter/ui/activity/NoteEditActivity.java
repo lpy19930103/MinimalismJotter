@@ -22,7 +22,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -42,12 +41,13 @@ import com.lipy.jotter.ui.view.PhotoDialog;
 import com.lipy.jotter.ui.view.pic.AlbumActivity;
 import com.lipy.jotter.ui.view.pic.popwindow.SelectPicPopupWindow;
 import com.lipy.jotter.utils.FileUtils;
-import com.lipy.jotter.utils.ImageUtils;
 import com.lipy.jotter.utils.Logger;
 import com.lipy.jotter.utils.PermissionUtils;
 import com.lipy.jotter.utils.RecoderManager;
 import com.lipy.jotter.utils.StringUtils;
 import com.lipy.jotter.utils.TimeUtils;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -69,7 +69,6 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
     private EditText mEtContent;
     private RelativeLayout titleItem;
     private LinearLayout recoderItem;
-    private ImageView showImage;
     private Chronometer recodTime; // 计时组件
     private TextView mTvTime;
     private RecyclerView imageListView;
@@ -143,13 +142,6 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         }
     };
 
-    View.OnClickListener showImageClick = new View.OnClickListener() {//展示大图时，点击图片返回图片列表
-        @Override
-        public void onClick(View v) {
-            showImgList(true);
-        }
-    };
-
 
     View.OnClickListener save = new View.OnClickListener() {
         @Override
@@ -211,7 +203,6 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         findViewById(R.id.note_back).setOnClickListener(save);
         titleItem = (RelativeLayout) findViewById(R.id.title_item);
         LinearLayout editItem = (LinearLayout) findViewById(R.id.edit_item);
-        showImage = (ImageView) findViewById(R.id.show_image);
         recoderItem = (LinearLayout) findViewById(R.id.recorder_item);
         Button recordStop = (Button) findViewById(R.id.record_stop);
         recodTime = (Chronometer) findViewById(R.id.record_time);
@@ -267,8 +258,6 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
             voiceInfoItem.setVisibility(View.GONE);
         }
         voiceInfoItem.setOnClickListener(playVoice);
-
-        showImage.setOnClickListener(showImageClick);
     }
 
     private void getImagePathList() {
@@ -306,19 +295,12 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
             dissmissPhotoDialog();
             mAddNoteView.setVisibility(View.VISIBLE);
             mCameraView.setVisibility(View.VISIBLE);
-            showImage.setVisibility(View.GONE);
             imageListView.setVisibility(View.VISIBLE);
             mMenuMoreView.setBackgroundResource(R.drawable.ic_widget_menu_more_list);
             mNoteImageAdapter.notifyDataSetChanged();
         } else {//展示大图
-//            mAddNoteView.setVisibility(View.GONE);
-//            mCameraView.setVisibility(View.GONE);
-//            showImage.setVisibility(View.VISIBLE);
-//            imageListView.setVisibility(View.GONE);
-//            ImageUtils.INSTANCE.setImage(this, (String) listImage.get(picIndex), showImage, 0);
             mPhotoDialog.setImagePath((String) listImage.get(picIndex));
             mPhotoDialog.show();
-//            mMenuMoreView.setBackgroundResource(R.drawable.ic_delete_pic);
         }
     }
 
@@ -366,8 +348,10 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
 
     /**
      * 确认删除弹框
+     *
+     * @param url
      */
-    private void showDeletePicDialog() {
+    private void showDeletePicDialog(final String url) {
         AlertDialog.Builder builder = new AlertDialog.Builder(NoteEditActivity.this);
         builder.setTitle(R.string.delete_accessory);
         builder.setMessage(R.string.need_delete);
@@ -375,13 +359,14 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (FileUtils.deleteFile((String) listImage.get(picIndex))) {
-                            listImage.remove(picIndex);
-                            ImageUtils.INSTANCE.setImage(NoteEditActivity.this, (String) listImage.get(picIndex), showImage, 0);
-                            mNoteImageAdapter.notifyDataSetChanged();
-                        } else {
-                            Toast.makeText(NoteEditActivity.this, R.string.delete_accessory_fail, Toast.LENGTH_SHORT).show();
-                        }
+//                        if (FileUtils.deleteFile(url)) {
+                        Logger.INSTANCE.e(url);
+                        FileUtils.deleteFile(url);
+                        listImage.remove(url);
+                        mNoteImageAdapter.notifyDataSetChanged();
+//                        } else {
+//                            Toast.makeText(NoteEditActivity.this, R.string.delete_accessory_fail, Toast.LENGTH_SHORT).show();
+//                        }
                     }
                 });
         builder.setNegativeButton(R.string.cancel,
@@ -393,7 +378,6 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
                 });
         mDialog = builder.create();
         mDialog.show();
-        FunctionPopup.dismiss();
     }
 
     @Override
@@ -423,16 +407,6 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
     private void appWidgetRefresh() {
         Intent intent = new Intent(AppWidgetNotesProvider.Companion.getCOM_WIDGET_NOTES_LIST_REFRESH());
         sendBroadcast(intent);
-    }
-
-    public void showKeyBoard() {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-    }
-
-    private void hideKeyBoard(EditText editText) {
-        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
     private String getOprTimeLineText(Note note) {
@@ -482,7 +456,7 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         } else if (v.getId() == R.id.tv_note_detail) {
 
         } else if (v.getId() == R.id.tv_note_delete) {
-            showDeletePicDialog();
+
         } else if (v.getId() == R.id.ic_widget_camera_tv) {
             //拍照
             if (PermissionUtils.isAllowUseCamera(this.getPackageManager())) {
@@ -545,13 +519,6 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    @Override
-    public void onClick(int position) {
-        picIndex = position;
-        showImgList(false);
-    }
-
-
     /**
      * 启动编辑activity
      *
@@ -602,5 +569,16 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         Uri imageUri = Uri.fromFile(imageFile);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, EDIT_TO_LAUNCH_CAMERA);
+    }
+
+    @Override
+    public void onImageClick(int position) {
+        picIndex = position;
+        showImgList(false);
+    }
+
+    @Override
+    public void onImageDelete(@NotNull String url) {
+        showDeletePicDialog(url);
     }
 }
