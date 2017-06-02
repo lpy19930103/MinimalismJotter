@@ -44,10 +44,9 @@ class GuideActivity : BaseActivity(), View.OnClickListener, EvernoteLoginFragmen
         super.onResume()
         if (EvernoteSession.getInstance().isLoggedIn) {
             EvernoteManager.getInstance()!!.setEvernoteListener(this)!!.getUser()
-
         } else {
-            btnSync!!.visibility = View.VISIBLE
-            btnLogin!!.visibility = View.GONE
+            btnSync!!.visibility = View.GONE
+            btnLogin!!.visibility = View.VISIBLE
             btnRegist!!.visibility = View.GONE
         }
     }
