@@ -360,10 +360,11 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 //                        if (FileUtils.deleteFile(url)) {
+                        int index = listImage.indexOf(url);
                         Logger.INSTANCE.e(url);
                         FileUtils.deleteFile(url);
                         listImage.remove(url);
-                        mNoteImageAdapter.notifyDataSetChanged();
+                        mNoteImageAdapter.notifyItemRemoved(index);
 //                        } else {
 //                            Toast.makeText(NoteEditActivity.this, R.string.delete_accessory_fail, Toast.LENGTH_SHORT).show();
 //                        }

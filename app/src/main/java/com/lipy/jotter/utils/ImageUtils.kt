@@ -20,7 +20,7 @@ object ImageUtils {
     fun showThumbnail(context: Context, noteImagePath: String, imageView: ImageView) {
         if (StringUtils.isNotEmpty(noteImagePath)) {
             val strings = noteImagePath.replace("[\\[\\]\\t\\r\\n\\s*]".toRegex(), "").split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            val path = strings[strings.size - 1]
+            val path = strings[0]
             if (StringUtils.isNotEmpty(path)) {
                 Glide.with(context)
                         .load(File(path))

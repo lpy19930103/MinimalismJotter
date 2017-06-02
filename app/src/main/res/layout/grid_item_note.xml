@@ -15,6 +15,7 @@
         app:cardElevation="4dp">
 
         <ImageView
+            android:scaleType="fitXY"
             android:id="@+id/thumbnail_iv"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

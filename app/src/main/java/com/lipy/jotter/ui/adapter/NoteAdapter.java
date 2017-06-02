@@ -12,6 +12,7 @@ import com.lipy.jotter.R;
 import com.lipy.jotter.dao.daocore.Note;
 import com.lipy.jotter.ui.listener.OnNoteItemClickListener;
 import com.lipy.jotter.utils.ImageUtils;
+import com.lipy.jotter.utils.Logger;
 import com.lipy.jotter.utils.StringUtils;
 import com.lipy.jotter.utils.TimeUtils;
 
@@ -35,6 +36,7 @@ public class NoteAdapter extends BaseAdapter<Note> {
 
     @Override
     protected void convert(BaseViewHolder holder, Note note) {
+        Logger.INSTANCE.e("BaseViewHolder BaseViewHolder");
         holder.setText(R.id.title, note.getLabel())
                 .setText(R.id.content, note.getContent())
                 .setText(R.id.time, mContext.getString(R.string.note_log_text, mContext.getString(R.string.create),
@@ -44,6 +46,7 @@ public class NoteAdapter extends BaseAdapter<Note> {
         if (StringUtils.isEmpty(note.getImagePath()) || "[]".equals(note.getImagePath())) {
             holder.setVisible(R.id.small_pic, false);
         } else {
+            holder.setVisible(R.id.small_pic, true);
             ImageUtils.INSTANCE.showThumbnail(mContext, note.getImagePath(), (ImageView) holder.getView(R.id.small_pic));
         }
 

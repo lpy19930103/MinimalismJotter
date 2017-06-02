@@ -31,12 +31,11 @@ public class DaoHelper {
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<List<Note>>() {
             @Override
             public void onSubscribe(Disposable d) {
-                Logger.INSTANCE.e("onSubscribe");
             }
 
             @Override
             public void onNext(List<Note> value) {
-                Logger.INSTANCE.e(value.toString());
+
             }
 
             @Override
@@ -46,7 +45,6 @@ public class DaoHelper {
 
             @Override
             public void onComplete() {
-                Logger.INSTANCE.e("onComplete");
             }
         });
     }
