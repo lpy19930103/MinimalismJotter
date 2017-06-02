@@ -50,13 +50,13 @@
 
         <receiver android:name="com.lipy.jotter.ui.appwidget.AppWidgetLabelProvider">
             <intent-filter>
-                <action android:name="label_action"></action>
-                <action android:name="add_action"></action>
-                <action android:name="recording_action"></action>
-                <action android:name="record_action"></action>
-                <action android:name="pictures_action"></action>
-                <action android:name="more_action"></action>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"></action>
+                <action android:name="label_action" />
+                <action android:name="add_action" />
+                <action android:name="recording_action" />
+                <action android:name="record_action" />
+                <action android:name="pictures_action" />
+                <action android:name="more_action" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
@@ -65,11 +65,11 @@
 
         <receiver android:name="com.lipy.jotter.ui.appwidget.AppWidgetNotesProvider">
             <intent-filter>
-                <action android:name="no_notes_action"></action>
-                <action android:name="notes_add_action"></action>
-                <action android:name="set_action"></action>
-                <action android:name="com.widget.notes.list.refresh"></action>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"></action>
+                <action android:name="no_notes_action" />
+                <action android:name="notes_add_action" />
+                <action android:name="set_action" />
+                <action android:name="com.widget.notes.list.refresh" />
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
@@ -79,13 +79,13 @@
         <service
             android:name="com.lipy.jotter.ui.appwidget.NotesWidgetService"
             android:exported="false"
-            android:permission="android.permission.BIND_REMOTEVIEWS"></service>
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <activity
             android:name=".ui.activity.NoteEditActivity"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
-                <action android:name="com.lipy.jotter.app.NoteEditActivity" />
+                <action android:name="com.lipy.jotter.ui.activity.NoteEditActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -94,7 +94,7 @@
             android:name=".ui.activity.HandleMsgActivity"
             android:theme="@style/handle_msg_activity_style">
             <intent-filter>
-                <action android:name="com.lipy.jotter.app.HandleMsgActivity" />
+                <action android:name="com.lipy.jotter.ui.activity.HandleMsgActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

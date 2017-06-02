@@ -6,9 +6,11 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
-import android.widget.Toast
 import com.lipy.jotter.R
+import com.lipy.jotter.constants.Constant
 import com.lipy.jotter.constants.ConstantWidget
+import com.lipy.jotter.dao.NoteService
+import com.lipy.jotter.dao.daocore.Note
 import com.lipy.jotter.utils.Logger
 import com.lipy.jotter.utils.SharedPreferencesUtils
 
@@ -65,7 +67,7 @@ class AppWidgetNotesProvider : AppWidgetProvider() {
      */
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         Logger.i(" --> onUpdate")
-        Toast.makeText(context, "onUpdate", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(context, "onUpdate", Toast.LENGTH_SHORT).show()
 
         // 创建一个Intent对象
         val intent1 = Intent(NO_NOTES_ACTION)
@@ -149,14 +151,14 @@ class AppWidgetNotesProvider : AppWidgetProvider() {
             Logger.d("无效widget ID")
             return
         }
-        var itemText: String? = intent.getStringExtra(NOTES_ITEM_CLICK_ACTION)
-        if (itemText == null) {
-            itemText = "Error"
-        }
-        itemText = "You have client on item : " + itemText
-        Toast.makeText(context, itemText, Toast.LENGTH_LONG).show()
+        val position: Int = intent.getIntExtra(NOTES_ITEM_CLICK_ACTION, -1)
+        val notes = NoteService.loadAll()
+        val note: Note = notes.get(position)
+//        Toast.makeText(context, "You have client on item : " + position, Toast.LENGTH_LONG).show()
         val noteIntent = Intent(ConstantWidget.NOTE_ACTIVITY_NAME)
         //传递点击的某条笔记，在NoteEditActivity中打开编辑
+        noteIntent.putExtra(Constant.INTENT_NOTE_MODE, Constant.EDIT_NOTE_MODE)
+        noteIntent.putExtra(Constant.INTENT_NOTE, note)
         noteIntent.putExtras(intent)
         noteIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         context.startActivity(noteIntent)

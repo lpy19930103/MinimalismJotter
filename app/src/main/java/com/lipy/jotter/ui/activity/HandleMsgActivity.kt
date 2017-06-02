@@ -19,7 +19,7 @@ import java.util.*
 /**
  * Created by lipy on 2017/3/27.
  */
-class HandleMsgActivity : BaseActivity() {
+class HandleMsgActivity : Activity() {
     private var imageFile: File? = null
     private val mNote = Note()
 

@@ -6,9 +6,10 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import com.lipy.jotter.R;
-import com.lipy.jotter.dao.daocore.Note;
 import com.lipy.jotter.dao.NoteService;
+import com.lipy.jotter.dao.daocore.Note;
 import com.lipy.jotter.utils.Logger;
+import com.lipy.jotter.utils.TimeUtils;
 
 import java.util.List;
 
@@ -54,7 +55,8 @@ public class NotesRemoteViewsFactory implements NotesWidgetService.RemoteViewsFa
 
         rv.setTextViewText(R.id.ic_notes_item_title_tv, note.getLabel());
         rv.setTextViewText(R.id.ic_notes_item_content_tv, note.getContent());
-        rv.setTextViewText(R.id.ic_notes_item_data_tv, "" + note.getCreateTime());
+        rv.setTextViewText(R.id.ic_notes_item_data_tv, context.getString(R.string.note_log_text, context.getString(R.string.create),
+                TimeUtils.getTime(note.getCreateTime())));
         loadItemOnClickExtras(rv, position);
         return rv;
     }
@@ -87,7 +89,7 @@ public class NotesRemoteViewsFactory implements NotesWidgetService.RemoteViewsFa
         Logger.INSTANCE.i(" --> loadItemOnClickExtras");
         Intent intent = new Intent();
         intent.putExtra(AppWidgetNotesProvider.Companion.getNOTES_ITEM_CLICK_ACTION(),
-                "Position of Item Clicked : " + position);
+                 position);
         rv.setOnClickFillInIntent(R.id.ic_notes_item_ll, intent);
     }
 

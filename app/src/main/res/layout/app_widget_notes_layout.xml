@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:text="所有"
+            android:text="极简笔记"
             android:textColor="@color/white"
             android:textSize="20dp" />
 
@@ -34,6 +34,7 @@
             android:layout_height="24dp"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
+            android:visibility="gone"
             android:layout_toLeftOf="@id/notes_add_write_text_tv"
             android:background="@drawable/ic_note_add_text" />
     </RelativeLayout>
@@ -66,7 +67,7 @@
 
         <ListView
             android:id="@+id/notes_lv"
-            android:layout_width="294dp"
+            android:layout_width="match_parent"
             android:layout_height="195dp"
             android:background="@color/widget_white"
             android:divider="#dedede"
