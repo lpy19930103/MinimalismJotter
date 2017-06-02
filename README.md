@@ -1,10 +1,11 @@
 # MinimalismJotter
-极简笔记
+### 极简笔记
 
+**使用kotlin、java混编**
 
+已使用框架：rxjava、greendao、glide
 
 ## version
-
 
 V 1.0.2 增加选择本地相册图片功能
 
