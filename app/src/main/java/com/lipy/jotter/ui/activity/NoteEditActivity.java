@@ -32,7 +32,9 @@ import android.widget.Toast;
 import com.lipy.jotter.R;
 import com.lipy.jotter.constants.Constant;
 import com.lipy.jotter.dao.NoteService;
+import com.lipy.jotter.dao.TagService;
 import com.lipy.jotter.dao.daocore.Note;
+import com.lipy.jotter.dao.daocore.Tag;
 import com.lipy.jotter.ui.adapter.NoteImageAdapter;
 import com.lipy.jotter.ui.appwidget.AppWidgetNotesProvider;
 import com.lipy.jotter.ui.fragment.TagFragment;
@@ -296,7 +298,15 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         } else {
             title = getString(R.string.no_title);
         }
-        NoteService.saveNote(mNote, content, title, tag, noteMode, listImage.toString(), voicePath);
+        List<Tag> tags = TagService.loadAll();
+        ArrayList<String> strings = new ArrayList<>();
+        for (Tag arg : tags){
+            strings.add(arg.getTag());
+        }
+        if (!strings.contains(tag)) {
+            TagService.insertTag(new Tag(null, this.tag));
+        }
+        NoteService.saveNote(mNote, content, title, this.tag, noteMode, listImage.toString(), voicePath);
         finish();
     }
 
