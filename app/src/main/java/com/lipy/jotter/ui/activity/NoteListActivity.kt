@@ -11,11 +11,12 @@ import com.evernote.client.android.EvernoteSession
 import com.evernote.edam.type.User
 import com.lipy.jotter.R
 import com.lipy.jotter.dao.NoteService
+import com.lipy.jotter.dao.TagService
 import com.lipy.jotter.dao.daocore.Note
+import com.lipy.jotter.dao.daocore.Tag
 import com.lipy.jotter.ui.adapter.ToggleMenuAdapter
 import com.lipy.jotter.ui.fragment.NoteListFragment
 import com.lipy.jotter.utils.EvernoteManager
-import java.util.*
 
 /**
  * 首页
@@ -35,7 +36,8 @@ class NoteListActivity : BaseActivity(), View.OnClickListener, EvernoteManager.E
     private var mPopupwindow: PopupWindow? = null
     private var isVertical = true
     private var lableList: ListView? = null
-
+    private var tvallthing: TextView? = null
+    private var tagList: ArrayList<Tag> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_list)
@@ -61,11 +63,10 @@ class NoteListActivity : BaseActivity(), View.OnClickListener, EvernoteManager.E
         mDrawerLayout!!.setDrawerListener(mDrawerToggle)//设置监听器
     }
 
-
     private fun initSlid() {
         lableList = findViewById(R.id.left_drawer) as ListView?
         val showLable = findViewById(R.id.iv_label) as ImageView?
-        val tvallthing = findViewById(R.id.tv_allthingnum) as TextView?
+        tvallthing = findViewById(R.id.tv_allthingnum) as TextView?
         val rlshowLable = findViewById(R.id.rl_label) as RelativeLayout?
         val rlsetting = findViewById(R.id.rl_setting) as RelativeLayout?
         val allthing = findViewById(R.id.rl_allthing) as RelativeLayout?
@@ -75,19 +76,14 @@ class NoteListActivity : BaseActivity(), View.OnClickListener, EvernoteManager.E
         allthing!!.setOnClickListener(this)
         rlguide!!.setOnClickListener(this)
         menu.clear()
-        val list = NoteService.loadAll()
+        tagList.addAll(TagService.loadAll() as ArrayList<Tag>)
         if (tvallthing != null) {
-            tvallthing.text = list.size.toString() + ""
+            tvallthing!!.text = NoteService.loadAll().size.toString()
         }
-        for (i in list.indices.reversed()) {
-            menu.add(list[i])
-        }
-        if (menu.size > 0) {
-            adapter = ToggleMenuAdapter(this@NoteListActivity, menu)
-            lableList!!.adapter = adapter
-        }
-
+        adapter = ToggleMenuAdapter(this@NoteListActivity, tagList)
+        lableList!!.adapter = adapter
     }
+
 
     private fun initToolBar() {
         mToolbar = findViewById(R.id.toolbar) as Toolbar?
@@ -100,6 +96,13 @@ class NoteListActivity : BaseActivity(), View.OnClickListener, EvernoteManager.E
         if (EvernoteSession.getInstance().isLoggedIn) {
             EvernoteManager.getInstance()!!.setEvernoteListener(this)!!.getUser()
         }
+
+        if (tvallthing != null) {
+            tvallthing!!.text = NoteService.loadAll().size.toString()
+        }
+        tagList.clear()
+        tagList.addAll(TagService.loadAll() as ArrayList<Tag>)
+        adapter!!.notifyDataSetChanged()
     }
 
     /**

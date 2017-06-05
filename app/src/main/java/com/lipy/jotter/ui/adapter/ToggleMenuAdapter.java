@@ -8,7 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.lipy.jotter.R;
-import com.lipy.jotter.dao.daocore.Note;
+import com.lipy.jotter.dao.daocore.Tag;
 
 import java.util.List;
 
@@ -19,9 +19,9 @@ import java.util.List;
  */
 public class ToggleMenuAdapter extends BaseAdapter{
     private Context mContext;
-    private List<Note> mNoteList;
+    private List<Tag> mNoteList;
 
-    public ToggleMenuAdapter(Context context, List<Note> noteList) {
+    public ToggleMenuAdapter(Context context, List<Tag> noteList) {
         mContext = context;
         mNoteList = noteList;
     }
@@ -44,7 +44,7 @@ public class ToggleMenuAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view =  convertView;
-        ViewHolder viewHolder = null;
+        ViewHolder viewHolder ;
         if (view == null) {
             view = LayoutInflater.from(mContext).inflate(R.layout.list_menu_layout, null);
             viewHolder = new ViewHolder();
@@ -54,7 +54,7 @@ public class ToggleMenuAdapter extends BaseAdapter{
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.title.setText("睡觉");
+        viewHolder.title.setText(mNoteList.get(position).getTag());
         viewHolder.content.setText("1");
         return view;
     }
