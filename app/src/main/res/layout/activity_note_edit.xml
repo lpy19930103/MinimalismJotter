@@ -42,7 +42,6 @@
                 android:background="@drawable/ic_widget_camera" />
 
             <View
-                android:visibility="gone"
                 android:id="@+id/ic_widget_menu_more_list_tv"
                 style="@style/ic_widget_tv_style"
                 android:background="@drawable/ic_widget_menu_more_list" />

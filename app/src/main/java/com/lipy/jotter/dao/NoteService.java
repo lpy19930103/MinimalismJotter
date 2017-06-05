@@ -36,13 +36,13 @@ public class NoteService {
      * @param voicePath
      */
     public static void saveNote(Note note, String content,
-                                String label, int etType, int mode, String imgPath, String voicePath) {
+                                String label, String etType, int mode, String imgPath, String voicePath) {
         updateNote(note, content, label, etType, mode, imgPath, voicePath);
         saveNote(note, mode);
     }
 
     private static void updateNote(Note note, String etContent,
-                                   String etLabel, int etType, int mode, String imgPath, String voicePath) {
+                                   String etLabel, String etType, int mode, String imgPath, String voicePath) {
         if (StringUtils.isNotEmpty(etContent)) {
             note.setContent(etContent);
         }
@@ -51,7 +51,7 @@ public class NoteService {
         } else {
             note.setLabel(etLabel);
         }
-        note.setType(etType);
+        note.setTag(etType);
         if (StringUtils.isNotEmpty(imgPath)) {
             note.setImagePath(imgPath);
         }

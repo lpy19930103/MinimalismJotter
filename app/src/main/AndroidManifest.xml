@@ -110,6 +110,7 @@
         <activity android:name="com.evernote.client.android.login.EvernoteLoginActivity" />
         <activity android:name="com.lipy.jotter.ui.view.pic.AlbumActivity" />
         <activity android:name="com.lipy.jotter.ui.view.pic.GalleryActivity" />
+        <activity android:name=".ui.fragment.TagFragment" />
     </application>
 
 </manifest>

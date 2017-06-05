@@ -20,7 +20,7 @@ public class NoteDaoGenerator {
         note.addIntProperty("note_id");//笔记编号
         note.addStringProperty("guid");//用户ID
         note.addIntProperty("status");//状态
-        note.addIntProperty("type");//类型
+        note.addStringProperty("tag");//类型
         note.addStringProperty("label");//标题
         note.addStringProperty("content");//内容
         note.addStringProperty("imagePath");//图片目录
@@ -28,8 +28,8 @@ public class NoteDaoGenerator {
         note.addLongProperty("createTime");//创建时间
         note.addLongProperty("lastOprTime");//最后修改时间
 
-        Entity user = schema.addEntity("Tag");//标签类型
-        user .addIdProperty();
-        user.addStringProperty("tag").notNull();
+        Entity tag = schema.addEntity("Tag");//标签类型
+        tag .addIdProperty();
+        tag.addStringProperty("tag").notNull();
     }
 }

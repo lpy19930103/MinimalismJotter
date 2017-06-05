@@ -26,7 +26,7 @@ public class NoteDao extends AbstractDao<Note, Long> {
         public final static Property Note_id = new Property(1, Integer.class, "note_id", false, "NOTE_ID");
         public final static Property Guid = new Property(2, String.class, "guid", false, "GUID");
         public final static Property Status = new Property(3, Integer.class, "status", false, "STATUS");
-        public final static Property Type = new Property(4, Integer.class, "type", false, "TYPE");
+        public final static Property Tag = new Property(4, String.class, "tag", false, "TAG");
         public final static Property Label = new Property(5, String.class, "label", false, "LABEL");
         public final static Property Content = new Property(6, String.class, "content", false, "CONTENT");
         public final static Property ImagePath = new Property(7, String.class, "imagePath", false, "IMAGE_PATH");
@@ -52,7 +52,7 @@ public class NoteDao extends AbstractDao<Note, Long> {
                 "'NOTE_ID' INTEGER," + // 1: note_id
                 "'GUID' TEXT," + // 2: guid
                 "'STATUS' INTEGER," + // 3: status
-                "'TYPE' INTEGER," + // 4: type
+                "'TAG' TEXT," + // 4: tag
                 "'LABEL' TEXT," + // 5: label
                 "'CONTENT' TEXT," + // 6: content
                 "'IMAGE_PATH' TEXT," + // 7: imagePath
@@ -92,9 +92,9 @@ public class NoteDao extends AbstractDao<Note, Long> {
             stmt.bindLong(4, status);
         }
  
-        Integer type = entity.getType();
-        if (type != null) {
-            stmt.bindLong(5, type);
+        String tag = entity.getTag();
+        if (tag != null) {
+            stmt.bindString(5, tag);
         }
  
         String label = entity.getLabel();
@@ -142,7 +142,7 @@ public class NoteDao extends AbstractDao<Note, Long> {
             cursor.isNull(offset + 1) ? null : cursor.getInt(offset + 1), // note_id
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // guid
             cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3), // status
-            cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4), // type
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // tag
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // label
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // content
             cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // imagePath
@@ -160,7 +160,7 @@ public class NoteDao extends AbstractDao<Note, Long> {
         entity.setNote_id(cursor.isNull(offset + 1) ? null : cursor.getInt(offset + 1));
         entity.setGuid(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
         entity.setStatus(cursor.isNull(offset + 3) ? null : cursor.getInt(offset + 3));
-        entity.setType(cursor.isNull(offset + 4) ? null : cursor.getInt(offset + 4));
+        entity.setTag(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setLabel(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
         entity.setContent(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
         entity.setImagePath(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));

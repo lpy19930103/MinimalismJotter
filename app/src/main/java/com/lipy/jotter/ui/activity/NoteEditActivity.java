@@ -31,11 +31,11 @@ import android.widget.Toast;
 
 import com.lipy.jotter.R;
 import com.lipy.jotter.constants.Constant;
-import com.lipy.jotter.dao.DaoHelper;
 import com.lipy.jotter.dao.NoteService;
 import com.lipy.jotter.dao.daocore.Note;
 import com.lipy.jotter.ui.adapter.NoteImageAdapter;
 import com.lipy.jotter.ui.appwidget.AppWidgetNotesProvider;
+import com.lipy.jotter.ui.fragment.TagFragment;
 import com.lipy.jotter.ui.listener.OnImageClickListener;
 import com.lipy.jotter.ui.view.PhotoDialog;
 import com.lipy.jotter.ui.view.pic.AlbumActivity;
@@ -66,6 +66,8 @@ import static com.lipy.jotter.constants.StorageConfig.creatVoiceFile;
  */
 public class NoteEditActivity extends BaseActivity implements View.OnClickListener, OnImageClickListener {
 
+    private static final int TAG_REQUEST_CODE = 2001;
+
     private EditText mEtContent;
     private RelativeLayout titleItem;
     private LinearLayout recoderItem;
@@ -93,6 +95,7 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
     private ArrayList listImage;
     private AlertDialog mDialog;
     private int picIndex;
+    private String tag;
 
     View.OnClickListener OnMenuMoreCheck = new View.OnClickListener() {
         @Override
@@ -164,6 +167,9 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         mNote = (Note) getIntent().getSerializableExtra(Constant.INTENT_NOTE);
         if (mNote == null) {
             mNote = new Note();
+            tag = "全部笔记";
+        } else {
+            tag = mNote.getTag();
         }
 
         imagePath = mNote.getImagePath();
@@ -290,7 +296,7 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         } else {
             title = getString(R.string.no_title);
         }
-        NoteService.saveNote(mNote, content, title, 1, noteMode, listImage.toString(), voicePath);
+        NoteService.saveNote(mNote, content, title, tag, noteMode, listImage.toString(), voicePath);
         finish();
     }
 
@@ -450,8 +456,7 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         //popup的点击事件处理
         if (v.getId() == R.id.tv_note_remind) {
-            DaoHelper.loadAll();
-            Toast.makeText(this, "提醒", Toast.LENGTH_SHORT).show();
+            startActivityForResult(new Intent(this, TagFragment.class), TAG_REQUEST_CODE);
         } else if (v.getId() == R.id.tv_note_list) {
 
         } else if (v.getId() == R.id.tv_note_send) {
@@ -497,7 +502,6 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Toast.makeText(NoteEditActivity.this, "显示相册图片", Toast.LENGTH_SHORT).show();
         switch (requestCode) {
             case EDIT_TO_LAUNCH_CAMERA:
                 if (resultCode == RESULT_OK) {
@@ -509,6 +513,9 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
 
             case TAKE_PICTURE:
                 if (resultCode == RESULT_OK) {
+                    if (data == null) {
+                        return;
+                    }
                     ArrayList<String> paths = (ArrayList) data.getSerializableExtra("IMAGE_PATHS");
                     for (String path : paths) {
                         if (!listImage.contains(path)) {
@@ -516,6 +523,12 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
                         }
                     }
                     mNoteImageAdapter.notifyDataSetChanged();
+                }
+                break;
+            case TAG_REQUEST_CODE:
+                if (data != null) {
+                    tag = data.getStringExtra("TAG");
+                    Toast.makeText(NoteEditActivity.this, "设置标签：" + tag, Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:

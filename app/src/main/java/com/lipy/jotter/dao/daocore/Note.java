@@ -7,13 +7,13 @@ import java.io.Serializable;
 /**
  * Entity mapped to table NOTE.
  */
-public class Note implements Serializable {
+public class Note implements Serializable{
 
     private Long id;
     private Integer note_id;
     private String guid;
     private Integer status;
-    private Integer type;
+    private String tag;
     private String label;
     private String content;
     private String imagePath;
@@ -28,12 +28,12 @@ public class Note implements Serializable {
         this.id = id;
     }
 
-    public Note(Long id, Integer note_id, String guid, Integer status, Integer type, String label, String content, String imagePath, String voicePath, Long createTime, Long lastOprTime) {
+    public Note(Long id, Integer note_id, String guid, Integer status, String tag, String label, String content, String imagePath, String voicePath, Long createTime, Long lastOprTime) {
         this.id = id;
         this.note_id = note_id;
         this.guid = guid;
         this.status = status;
-        this.type = type;
+        this.tag = tag;
         this.label = label;
         this.content = content;
         this.imagePath = imagePath;
@@ -74,12 +74,12 @@ public class Note implements Serializable {
         this.status = status;
     }
 
-    public Integer getType() {
-        return type;
+    public String getTag() {
+        return tag;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setTag(String tag) {
+        this.tag = tag;
     }
 
     public String getLabel() {

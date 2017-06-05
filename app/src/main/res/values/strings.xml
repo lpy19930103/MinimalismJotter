@@ -40,6 +40,7 @@
     <string name="edit_voice_size">大小：</string>
 
     <string name="note_edit_pop_remind">提醒</string>
+    <string name="note_edit_pop_tag">标签</string>
     <string name="note_edit_pop_list">清单</string>
     <string name="note_edit_pop_send">发送</string>
     <string name="note_edit_pop_select">查找</string>
