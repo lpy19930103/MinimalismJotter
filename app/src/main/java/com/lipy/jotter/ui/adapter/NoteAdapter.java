@@ -12,7 +12,6 @@ import com.lipy.jotter.R;
 import com.lipy.jotter.dao.daocore.Note;
 import com.lipy.jotter.ui.listener.OnNoteItemClickListener;
 import com.lipy.jotter.utils.ImageUtils;
-import com.lipy.jotter.utils.Logger;
 import com.lipy.jotter.utils.StringUtils;
 import com.lipy.jotter.utils.TimeUtils;
 
