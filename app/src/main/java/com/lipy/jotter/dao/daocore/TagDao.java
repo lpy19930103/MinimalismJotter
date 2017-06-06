@@ -24,6 +24,7 @@ public class TagDao extends AbstractDao<Tag, Long> {
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Tag = new Property(1, String.class, "tag", false, "TAG");
+        public final static Property Size = new Property(2, Integer.class, "size", false, "SIZE");
     };
 
 
@@ -40,7 +41,8 @@ public class TagDao extends AbstractDao<Tag, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "'TAG' (" + //
                 "'_id' INTEGER PRIMARY KEY ," + // 0: id
-                "'TAG' TEXT NOT NULL );"); // 1: tag
+                "'TAG' TEXT," + // 1: tag
+                "'SIZE' INTEGER);"); // 2: size
     }
 
     /** Drops the underlying database table. */
@@ -58,7 +60,16 @@ public class TagDao extends AbstractDao<Tag, Long> {
         if (id != null) {
             stmt.bindLong(1, id);
         }
-        stmt.bindString(2, entity.getTag());
+ 
+        String tag = entity.getTag();
+        if (tag != null) {
+            stmt.bindString(2, tag);
+        }
+ 
+        Integer size = entity.getSize();
+        if (size != null) {
+            stmt.bindLong(3, size);
+        }
     }
 
     /** @inheritdoc */
@@ -72,7 +83,8 @@ public class TagDao extends AbstractDao<Tag, Long> {
     public Tag readEntity(Cursor cursor, int offset) {
         Tag entity = new Tag( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.getString(offset + 1) // tag
+            cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // tag
+            cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2) // size
         );
         return entity;
     }
@@ -81,7 +93,8 @@ public class TagDao extends AbstractDao<Tag, Long> {
     @Override
     public void readEntity(Cursor cursor, Tag entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setTag(cursor.getString(offset + 1));
+        entity.setTag(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
+        entity.setSize(cursor.isNull(offset + 2) ? null : cursor.getInt(offset + 2));
      }
     
     /** @inheritdoc */

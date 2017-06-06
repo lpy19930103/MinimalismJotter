@@ -22,6 +22,10 @@ import com.lipy.jotter.ui.adapter.NoteAdapter
 import com.lipy.jotter.ui.appwidget.AppWidgetNotesProvider
 import com.lipy.jotter.ui.listener.OnNoteItemClickListener
 import com.lipy.jotter.utils.Logger
+import io.reactivex.Observable
+import io.reactivex.ObservableOnSubscribe
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 /**
@@ -40,6 +44,8 @@ class NoteListFragment : Fragment() {
     private var recyclerView: RecyclerView? = null
     private var mGridNoteAdapter: GridNoteAdapter? = null
 
+    private var tagString = "全部笔记"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mContext = activity
@@ -47,7 +53,6 @@ class NoteListFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Logger.i("NoteListFragment --> onResume()")
         notifyData()
     }
 
@@ -73,6 +78,11 @@ class NoteListFragment : Fragment() {
 
 
         inflate.findViewById(R.id.fab_).setOnClickListener(fabClick)
+    }
+
+    fun setTag(tag: String) {
+        tagString = tag
+        notifyData()
     }
 
     fun setListNote() {
@@ -125,17 +135,9 @@ class NoteListFragment : Fragment() {
      * ListView数据刷新
      */
     private fun notifyData() {
-        mNotes.clear()
-        val list = NoteService.loadAll()
-        for (note in list) {
-            mNotes.add(note)
-        }
-//        for (i in list.indices.reversed()) {
-//            mNotes.add(list[i])
-//        }
-        mNoteAdapter!!.notifyDataSetChanged()
-        mGridNoteAdapter!!.notifyDataSetChanged()
-        appWidgetRefresh()
+        Logger.e("tagString = " + tagString)
+        filtrateNote(tagString)
+
     }
 
     /**
@@ -150,7 +152,6 @@ class NoteListFragment : Fragment() {
      * 修改
      */
     private fun go2Edit(note: Note) {
-        val x: IntArray = intArrayOf(1, 2, 3)
         NoteEditActivity.startup(this@NoteListFragment.activity, note, Constant.EDIT_NOTE_MODE)
     }
 
@@ -162,5 +163,29 @@ class NoteListFragment : Fragment() {
         mNotes.remove(note)
         NoteService.deleteNote(note)
         mNoteAdapter!!.notifyItemRemoved(position)
+    }
+
+    private fun filtrateNote(tag: String) {
+        Observable.create(ObservableOnSubscribe<List<Note>> { e ->
+            var tagNotes = ArrayList<Note>()
+            for (note in NoteService.loadAll()) {
+                if (tag == "全部笔记") {
+                    tagNotes = NoteService.loadAll() as ArrayList<Note>
+                } else if (tag == note.tag) {
+                    tagNotes.add(note)
+                }
+            }
+            e.onNext(tagNotes)
+        })
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe { notes ->
+                    mNotes.clear()
+                    for (i in notes.indices.reversed()) {
+                        mNotes.add(notes[i])
+                    }
+                    mNoteAdapter!!.notifyDataSetChanged()
+                    mGridNoteAdapter!!.notifyDataSetChanged()
+                    appWidgetRefresh()
+                }
     }
 }

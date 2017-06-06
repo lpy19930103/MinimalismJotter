@@ -7,11 +7,11 @@ import java.io.Serializable;
 /**
  * Entity mapped to table TAG.
  */
-public class Tag implements Serializable {
+public class Tag implements Serializable{
 
     private Long id;
-    /** Not-null value. */
     private String tag;
+    private Integer size;
 
     public Tag() {
     }
@@ -20,9 +20,10 @@ public class Tag implements Serializable {
         this.id = id;
     }
 
-    public Tag(Long id, String tag) {
+    public Tag(Long id, String tag, Integer size) {
         this.id = id;
         this.tag = tag;
+        this.size = size;
     }
 
     public Long getId() {
@@ -33,14 +34,20 @@ public class Tag implements Serializable {
         this.id = id;
     }
 
-    /** Not-null value. */
     public String getTag() {
         return tag;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
     public void setTag(String tag) {
         this.tag = tag;
+    }
+
+    public Integer getSize() {
+        return size;
+    }
+
+    public void setSize(Integer size) {
+        this.size = size;
     }
 
 }

@@ -30,6 +30,7 @@ public class NoteDaoGenerator {
 
         Entity tag = schema.addEntity("Tag");//标签类型
         tag .addIdProperty();
-        tag.addStringProperty("tag").notNull();
+        tag.addStringProperty("tag");
+        tag.addIntProperty("size");
     }
 }

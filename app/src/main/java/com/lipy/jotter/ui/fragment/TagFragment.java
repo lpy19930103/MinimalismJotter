@@ -79,7 +79,7 @@ public class TagFragment extends BaseActivity implements View.OnClickListener {
                 String addStr = addET.getText().toString().trim();
                 if (StringUtils.isNotEmpty(addStr) && !tagStrs.contains(addStr)) {
                     tagStrs.add(addStr);
-                    TagService.insertTag(new Tag(null, addStr));
+                    TagService.insertTag(new Tag(null, addStr, 0));
                     refreshTags();
                 }
                 break;

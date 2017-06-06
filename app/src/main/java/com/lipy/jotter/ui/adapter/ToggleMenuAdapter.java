@@ -55,7 +55,7 @@ public class ToggleMenuAdapter extends BaseAdapter{
             viewHolder = (ViewHolder) view.getTag();
         }
         viewHolder.title.setText(mNoteList.get(position).getTag());
-        viewHolder.content.setText("1");
+        viewHolder.content.setText(mNoteList.get(position).getSize()+"");
         return view;
     }
     class ViewHolder{

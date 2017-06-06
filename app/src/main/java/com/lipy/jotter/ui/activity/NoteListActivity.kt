@@ -17,6 +17,11 @@ import com.lipy.jotter.dao.daocore.Tag
 import com.lipy.jotter.ui.adapter.ToggleMenuAdapter
 import com.lipy.jotter.ui.fragment.NoteListFragment
 import com.lipy.jotter.utils.EvernoteManager
+import com.lipy.jotter.utils.Logger
+import io.reactivex.Observable
+import io.reactivex.ObservableOnSubscribe
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 /**
  * 首页
@@ -31,18 +36,18 @@ class NoteListActivity : BaseActivity(), View.OnClickListener, EvernoteManager.E
 
     private var mToolbar: Toolbar? = null
     private var mNoteListFragment: NoteListFragment? = null
-    private val menu = ArrayList<Note>()
     private var adapter: ToggleMenuAdapter? = null
     private var mPopupwindow: PopupWindow? = null
     private var isVertical = true
     private var lableList: ListView? = null
     private var tvallthing: TextView? = null
     private var tagList: ArrayList<Tag> = ArrayList()
+    private var mDrawerLayout : DrawerLayout? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note_list)
         initToolBar()
-        val mDrawerLayout = findViewById(R.id.drawer_layout) as DrawerLayout?
+        mDrawerLayout = findViewById(R.id.drawer_layout) as DrawerLayout?
         mNoteListFragment = NoteListFragment()
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         fragmentTransaction.replace(R.id.fragment_note_list, mNoteListFragment)
@@ -75,13 +80,19 @@ class NoteListActivity : BaseActivity(), View.OnClickListener, EvernoteManager.E
         rlsetting!!.setOnClickListener(this)
         allthing!!.setOnClickListener(this)
         rlguide!!.setOnClickListener(this)
-        menu.clear()
-        tagList.addAll(TagService.loadAll() as ArrayList<Tag>)
+        getNoteTag()
         if (tvallthing != null) {
             tvallthing!!.text = NoteService.loadAll().size.toString()
         }
         adapter = ToggleMenuAdapter(this@NoteListActivity, tagList)
         lableList!!.adapter = adapter
+        lableList!!.setOnItemClickListener({
+            _, _, position, _ ->
+            Logger.d(tagList[position].tag)
+            mNoteListFragment!!.tag = tagList[position].tag
+            mToolbar!!.title = tagList[position].tag
+            mDrawerLayout!!.closeDrawers()
+        })
     }
 
 
@@ -100,9 +111,34 @@ class NoteListActivity : BaseActivity(), View.OnClickListener, EvernoteManager.E
         if (tvallthing != null) {
             tvallthing!!.text = NoteService.loadAll().size.toString()
         }
-        tagList.clear()
-        tagList.addAll(TagService.loadAll() as ArrayList<Tag>)
+        getNoteTag()
         adapter!!.notifyDataSetChanged()
+    }
+
+    fun getNoteTag() {
+        Observable.create(ObservableOnSubscribe<List<Note>> { e -> e.onNext(NoteService.loadAll()) }).subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .flatMap { notes ->
+                    val tags = TagService.loadAll()
+                    for (tag in tags) {
+                        var i = 0
+                        for (note in notes) {
+                            if (tag.tag == "全部笔记") {
+                                i = notes.size
+                            } else if (tag.tag == note.tag) {
+                                i++
+                            }
+                        }
+                        tag.size = i
+                        TagService.saveTag(tag)
+                    }
+                    Observable.fromArray(tags)
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { tags ->
+                    tagList.clear()
+                    tagList.addAll(tags)
+                }
     }
 
     /**

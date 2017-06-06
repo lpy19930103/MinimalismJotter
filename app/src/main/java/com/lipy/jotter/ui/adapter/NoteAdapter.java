@@ -36,7 +36,6 @@ public class NoteAdapter extends BaseAdapter<Note> {
 
     @Override
     protected void convert(BaseViewHolder holder, Note note) {
-        Logger.INSTANCE.e("BaseViewHolder BaseViewHolder");
         holder.setText(R.id.title, note.getLabel())
                 .setText(R.id.content, note.getContent())
                 .setText(R.id.time, mContext.getString(R.string.note_log_text, mContext.getString(R.string.create),

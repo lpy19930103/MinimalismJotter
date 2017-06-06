@@ -94,7 +94,7 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
     private Chronometer playTime;
     private PopupWindow FunctionPopup;
     private File imageFile;
-    private ArrayList listImage;
+    private ArrayList listImage = new ArrayList<>();
     private AlertDialog mDialog;
     private int picIndex;
     private String tag;
@@ -177,7 +177,7 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         imagePath = mNote.getImagePath();
         Logger.INSTANCE.i("NoteEditActivity----imagePath: " + imagePath);
         voicePath = mNote.getVoicePath();
-        if (StringUtils.isNotEmpty(imagePath)) {
+        if (StringUtils.isNotEmpty(imagePath) && !"[]".equals(imagePath)) {
             imagePathList = imagePath.replaceAll("[\\[\\]\\t\\r\\n\\s*]", "").split(",");
         }
 
@@ -247,7 +247,6 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         }
 
         //图片列表
-        listImage = new ArrayList<>();
         getImagePathList();
         mNoteImageAdapter = new NoteImageAdapter(this, listImage);
         imageListView.setAdapter(mNoteImageAdapter);
@@ -272,8 +271,8 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         listImage.clear();
         if (imagePathList != null && imagePathList.length > 0) {
             for (String path : imagePathList) {
-                listImage.add(path);
                 Logger.INSTANCE.i("NoteEditActivity----listImage: " + listImage);
+                listImage.add(path);
             }
 //            mNoteImageAdapter.notifyDataSetChanged();
         }
@@ -300,11 +299,11 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         }
         List<Tag> tags = TagService.loadAll();
         ArrayList<String> strings = new ArrayList<>();
-        for (Tag arg : tags){
+        for (Tag arg : tags) {
             strings.add(arg.getTag());
         }
         if (!strings.contains(tag)) {
-            TagService.insertTag(new Tag(null, this.tag));
+            TagService.insertTag(new Tag(null, this.tag, 0));
         }
         NoteService.saveNote(mNote, content, title, this.tag, noteMode, listImage.toString(), voicePath);
         finish();
@@ -466,6 +465,10 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         //popup的点击事件处理
         if (v.getId() == R.id.tv_note_remind) {
+            if (FunctionPopup != null && FunctionPopup.isShowing()) {
+                FunctionPopup.dismiss();
+                FunctionPopup = null;
+            }
             startActivityForResult(new Intent(this, TagFragment.class), TAG_REQUEST_CODE);
         } else if (v.getId() == R.id.tv_note_list) {
 
