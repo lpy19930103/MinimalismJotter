@@ -57,6 +57,14 @@ public class NotesRemoteViewsFactory implements NotesWidgetService.RemoteViewsFa
         rv.setTextViewText(R.id.ic_notes_item_content_tv, note.getContent());
         rv.setTextViewText(R.id.ic_notes_item_data_tv, context.getString(R.string.note_log_text, context.getString(R.string.create),
                 TimeUtils.getTime(note.getCreateTime())));
+//        if (StringUtils.isEmpty(note.getImagePath()) || "[]".equals(note.getImagePath())) {
+//            rv.setViewVisibility(R.id.ic_small_pic, Visibility);
+//        } else {
+//            rv.
+//            holder.setVisible(R.id.small_pic, true);
+//            ImageUtils.INSTANCE.showThumbnail(mContext, note.getImagePath(), (ImageView) holder.getView(R.id.small_pic));
+//        }
+
         loadItemOnClickExtras(rv, position);
         return rv;
     }

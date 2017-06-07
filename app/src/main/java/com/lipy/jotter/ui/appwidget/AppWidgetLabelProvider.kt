@@ -40,7 +40,7 @@ class AppWidgetLabelProvider : AppWidgetProvider() {
      */
     override fun onDisabled(context: Context) {
         Logger.i(" --> onDisabled")
-        Toast.makeText(context, "onDisabled", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(context, "onDisabled", Toast.LENGTH_SHORT).show()
         super.onDisabled(context)
     }
 
@@ -49,7 +49,7 @@ class AppWidgetLabelProvider : AppWidgetProvider() {
      */
     override fun onEnabled(context: Context) {
         Logger.i(" --> onEnabled")
-        Toast.makeText(context, "onEnabled", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(context, "onEnabled", Toast.LENGTH_SHORT).show()
         super.onEnabled(context)
     }
 
@@ -58,7 +58,7 @@ class AppWidgetLabelProvider : AppWidgetProvider() {
      */
     override fun onReceive(context: Context, intent: Intent) {
         Logger.i(" --> onReceive")
-        Toast.makeText(context, "onReceive", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(context, "onReceive", Toast.LENGTH_SHORT).show()
         if (LABEL_ACTION == intent.action) {
             Logger.i(" --> 相应Btn1按钮")
             val appIntent = Intent(ConstantWidget.NOTE_ACTIVITY_NAME)
@@ -107,7 +107,7 @@ class AppWidgetLabelProvider : AppWidgetProvider() {
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager,
                           appWidgetIds: IntArray) {
         Logger.i(" --> onUpdate")
-        Toast.makeText(context, "onUpdate", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(context, "onUpdate", Toast.LENGTH_SHORT).show()
 
         // 创建一个Intent对象
         val intent1 = Intent(LABEL_ACTION)
