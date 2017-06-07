@@ -101,5 +101,6 @@
 *;
 }
 -keep class com.lipy.jotter.dao.daocore.** { *;}
+-keep class com.lipy.jotter.ui.view.pic.model.** { *;}
 
 -keep class de.greenrobot.dao.** { *;}

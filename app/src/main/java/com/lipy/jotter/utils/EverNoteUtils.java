@@ -32,7 +32,7 @@
 //import de.greenrobot.event.EventBus;
 //
 ///**
-// * Created by lgp on 2015/6/12.
+// * Created by lipy on 2015/6/12.
 // */
 //public class EverNoteUtils {
 //

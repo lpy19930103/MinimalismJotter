@@ -1,7 +1,6 @@
 package com.lipy.jotter.ui.view.pic;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
@@ -44,7 +43,7 @@ import java.util.List;
  * Created by lipy on 2015/7/1.
  */
 public class AlbumActivity extends Activity implements ListImageDirPopupWindow.OnImageDirSelected {
-    private ProgressDialog mProgressDialog;
+//    private ProgressDialog mProgressDialog;
 
     /**
      * 存储文件夹中的图片数量
@@ -88,7 +87,7 @@ public class AlbumActivity extends Activity implements ListImageDirPopupWindow.O
 
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
-            mProgressDialog.dismiss();
+//            mProgressDialog.dismiss();
             // 为View绑定数据
             data2View();
             // 初始化展示文件夹的popupWindw
@@ -195,7 +194,7 @@ public class AlbumActivity extends Activity implements ListImageDirPopupWindow.O
             return;
         }
         // 显示进度条
-        mProgressDialog = ProgressDialog.show(this, null, "正在加载...");
+//        mProgressDialog = ProgressDialog.show(this, null, "正在加载...");
 
         new Thread(new Runnable() {
             @Override
@@ -240,8 +239,7 @@ public class AlbumActivity extends Activity implements ListImageDirPopupWindow.O
                         imageFloder.setDir(dirPath);
                         imageFloder.setFirstImagePath(path);
                     }
-
-                    int picSize = parentFile.list(new FilenameFilter() {
+                    String[] list = parentFile.list(new FilenameFilter() {
                         @Override
                         public boolean accept(File dir, String filename) {
                             if (filename.endsWith(".jpg")
@@ -250,7 +248,11 @@ public class AlbumActivity extends Activity implements ListImageDirPopupWindow.O
                                 return true;
                             return false;
                         }
-                    }).length;
+                    });
+                    int picSize = 0;
+                    if (list != null) {
+                        picSize = list.length;
+                    }
                     totalCount += picSize;
 
                     imageFloder.setCount(picSize);
