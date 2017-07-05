@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context="com.lipy.jotter.ui.activity.SplashActivity">
+
+    <ImageView
+        android:background="#000"
+        android:id="@+id/splash_bg"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    <com.lipy.jotter.ui.activity.LoadingPathAnimView
+        android:layout_marginTop="200dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/pathAnimView1"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:paddingLeft="40dp" />
+  <com.lipy.jotter.ui.activity.LoadingPathAnimView
+      android:layout_marginTop="250dp"
+      android:layout_centerHorizontal="true"
+        android:id="@+id/pathAnimView2"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+      android:paddingLeft="15dp"
+      android:paddingTop="30dp"/>
+
+
+</RelativeLayout>

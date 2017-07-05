@@ -6,11 +6,11 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_INTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-permission android:name="android.permission.SET_WALLPAPER" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -20,7 +20,6 @@
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
 
-
     <application
         android:name=".app.App"
         android:allowBackup="true"
@@ -28,14 +27,15 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.activity.NoteListActivity">
+        <activity android:name=".ui.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <receiver android:name="com.lipy.jotter.ui.appwidget.AppWidgetLabelProvider">
+        <receiver android:name=".ui.appwidget.AppWidgetLabelProvider">
             <intent-filter>
                 <action android:name="label_action" />
                 <action android:name="add_action" />
@@ -45,12 +45,12 @@
                 <action android:name="more_action" />
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget_label" />
         </receiver>
-
-        <receiver android:name="com.lipy.jotter.ui.appwidget.AppWidgetNotesProvider">
+        <receiver android:name=".ui.appwidget.AppWidgetNotesProvider">
             <intent-filter>
                 <action android:name="no_notes_action" />
                 <action android:name="notes_add_action" />
@@ -58,13 +58,14 @@
                 <action android:name="com.widget.notes.list.refresh" />
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/app_widget_notes" />
         </receiver>
 
         <service
-            android:name="com.lipy.jotter.ui.appwidget.NotesWidgetService"
+            android:name=".ui.appwidget.NotesWidgetService"
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
@@ -73,15 +74,16 @@
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="com.lipy.jotter.ui.activity.NoteEditActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.activity.HandleMsgActivity"
             android:theme="@style/handle_msg_activity_style">
             <intent-filter>
                 <action android:name="com.lipy.jotter.ui.activity.HandleMsgActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -92,12 +94,12 @@
         <activity
             android:name=".ui.activity.GuideActivity"
             android:screenOrientation="portrait" />
-
         <activity android:name="com.evernote.client.android.EvernoteOAuthActivity" />
         <activity android:name="com.evernote.client.android.login.EvernoteLoginActivity" />
-        <activity android:name="com.lipy.jotter.ui.view.pic.AlbumActivity" />
-        <activity android:name="com.lipy.jotter.ui.view.pic.GalleryActivity" />
+        <activity android:name=".ui.view.pic.AlbumActivity" />
+        <activity android:name=".ui.view.pic.GalleryActivity" />
         <activity android:name=".ui.fragment.TagFragment" />
+        <activity android:name=".ui.activity.NoteListActivity" />
     </application>
 
 </manifest>
