@@ -50,8 +50,8 @@ public class SplashActivity extends BaseActivity {
     }
 
     public void start() {
-        pathAnimView.setAnimTime(2950).startAnim();//普通可xml预览path动画
-        pathAnimView2.setAnimTime(2950).startAnim();//普通可xml预览path动画
+        pathAnimView.setAnimTime(3000).startAnim();//普通可xml预览path动画
+        pathAnimView2.setAnimTime(3000).startAnim();//普通可xml预览path动画
 
     }
 
