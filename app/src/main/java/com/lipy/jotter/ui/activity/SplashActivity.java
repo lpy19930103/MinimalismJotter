@@ -8,7 +8,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -29,7 +28,7 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         //去除title
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-//去掉Activity上面的状态栏
+        //去掉Activity上面的状态栏
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_splash);
         splashBg = (ImageView) findViewById(R.id.splash_bg);
