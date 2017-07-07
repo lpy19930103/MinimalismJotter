@@ -42,7 +42,7 @@ public class SplashActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         start();
-        new CountDownTimer(3000, 1000) {
+        new CountDownTimer(2000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -57,9 +57,8 @@ public class SplashActivity extends BaseActivity {
     }
 
     public void start() {
-        pathAnimView.setAnimTime(3000).startAnim();//普通可xml预览path动画
-        pathAnimView2.setAnimTime(3000).startAnim();//普通可xml预览path动画
-
+        pathAnimView.setAnimTime(1000).startAnim();//普通可xml预览path动画
+        pathAnimView2.setAnimTime(1000).startAnim();//普通可xml预览path动画
     }
 
 
