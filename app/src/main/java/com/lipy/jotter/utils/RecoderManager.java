@@ -20,9 +20,10 @@ import java.util.TimerTask;
 public class RecoderManager {
     static SeekBar seekBar;
     static long playTime;
+    private static boolean isPlaying = false;
 
     public static void startRecord(MediaRecorder recorder, String path) {
-        if(recorder == null) {
+        if (recorder == null) {
             recorder = new MediaRecorder();
             recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
             recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -40,7 +41,7 @@ public class RecoderManager {
     }
 
     public static void stopRecord(MediaRecorder recorder) {
-        if(recorder != null) {
+        if (recorder != null) {
             recorder.stop();
             recorder.release();
             recorder = null;
@@ -48,33 +49,36 @@ public class RecoderManager {
     }
 
     public static void voicePlay(final MediaPlayer player, String path, final SeekBar seekBar, final Chronometer chronometer) {
-        if(player != null) {
+        if (player != null) {
             setChronometer(chronometer, Constant.CHRONOMETER_START);
-            player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            try {
-                player.setDataSource(path);
-                player.prepare();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (!isPlaying) {
+                player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                try {
+                    player.setDataSource(path);
+                    player.prepare();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                isPlaying = true;
             }
-        }
 
-        player.start();
 
-        //设置Bar的最大值
-        int max = player.getDuration();
-        seekBar.setMax(max);
-        //定时器更新进度条
-        final Timer timer = new  Timer();
-        TimerTask timeTask = new TimerTask() {
-            @Override
-            public void run() {
-                // TODO Auto-generated method stub
-                int a = player.getCurrentPosition();
-                seekBar.setProgress(player.getCurrentPosition());
-            }
-        };
-        timer.schedule(timeTask, 0, 500);
+            player.start();
+
+            //设置Bar的最大值
+            int max = player.getDuration();
+            seekBar.setMax(max);
+            //定时器更新进度条
+            final Timer timer = new Timer();
+            TimerTask timeTask = new TimerTask() {
+                @Override
+                public void run() {
+                    // TODO Auto-generated method stub
+                    int a = player.getCurrentPosition();
+                    seekBar.setProgress(player.getCurrentPosition());
+                }
+            };
+            timer.schedule(timeTask, 0, 500);
 
         /*player.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
 
@@ -86,16 +90,17 @@ public class RecoderManager {
             }
         });*/
 
-        //音频播放完之后重新设置显示
-        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                // TODO Auto-generated method stub
-                seekBar.setProgress(0);
-                setChronometer(chronometer, Constant.CHRONOMETER_RESET);
-                timer.cancel();
-            }
-        });
+            //音频播放完之后重新设置显示
+            player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    // TODO Auto-generated method stub
+                    seekBar.setProgress(0);
+                    setChronometer(chronometer, Constant.CHRONOMETER_RESET);
+                    timer.cancel();
+                }
+            });
+        }
     }
 
     public static void voicePause(MediaPlayer player, Chronometer chronometer) {
@@ -108,12 +113,12 @@ public class RecoderManager {
     }
 
     private static void setChronometer(Chronometer chronometer, int mode) {
-        switch (mode){
+        switch (mode) {
             case Constant.CHRONOMETER_START:
-                if(playTime != 0){
+                if (playTime != 0) {
                     chronometer.setBase(chronometer.getBase() +
                             (SystemClock.elapsedRealtime() - playTime));
-                }else{
+                } else {
                     chronometer.setBase(SystemClock.elapsedRealtime());
                 }
                 chronometer.start();
@@ -127,7 +132,8 @@ public class RecoderManager {
                 chronometer.setBase(SystemClock.elapsedRealtime());
                 playTime = 0;
                 break;
-            default: break;
+            default:
+                break;
         }
     }
 }
