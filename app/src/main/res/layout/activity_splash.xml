@@ -27,6 +27,14 @@
         android:layout_height="200dp"
       android:paddingLeft="15dp"
       android:paddingTop="30dp"/>
+    <com.lipy.jotter.ui.activity.LoadingPathAnimView
+        android:layout_marginTop="320dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/pathAnimView3"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="30dp"/>
 
 
 </RelativeLayout>

@@ -22,6 +22,7 @@ public class SplashActivity extends BaseActivity {
     private ImageView splashBg;
     private LoadingPathAnimView pathAnimView;
     private LoadingPathAnimView pathAnimView2;
+    private LoadingPathAnimView pathAnimView3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,8 @@ public class SplashActivity extends BaseActivity {
         pathAnimView = (LoadingPathAnimView) findViewById(R.id.pathAnimView1);
         pathAnimView2 = (LoadingPathAnimView) findViewById(R.id.pathAnimView2);
         pathAnimView2.setSourcePath(PathParserUtils.getPathFromArrayFloatList(StoreHousePath.getPath("Just for recording")));
+        pathAnimView3 = (LoadingPathAnimView) findViewById(R.id.pathAnimView3);
+        pathAnimView3.setSourcePath(PathParserUtils.getPathFromArrayFloatList(StoreHousePath.getPath("Just for reading")));
         initBg();
     }
 
@@ -57,8 +60,9 @@ public class SplashActivity extends BaseActivity {
     }
 
     public void start() {
-        pathAnimView.setAnimTime(1000).startAnim();//普通可xml预览path动画
-        pathAnimView2.setAnimTime(1000).startAnim();//普通可xml预览path动画
+        pathAnimView.setAnimTime(2000).startAnim();//普通可xml预览path动画
+        pathAnimView2.setAnimTime(2000).startAnim();//普通可xml预览path动画
+        pathAnimView3.setAnimTime(2000).startAnim();//普通可xml预览path动画
     }
 
 
@@ -82,6 +86,7 @@ public class SplashActivity extends BaseActivity {
     public void stop() {
         pathAnimView.stopAnim();
         pathAnimView2.stopAnim();
+        pathAnimView3.stopAnim();
     }
 
     public void reset() {
