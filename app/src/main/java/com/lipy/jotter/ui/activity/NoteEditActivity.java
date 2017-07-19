@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -171,6 +172,7 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
     private Transferee transferee;
     private LinearLayoutManager linearLayoutManager;
     private TransferConfig config;
+    private RelativeLayout imageGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -240,6 +242,7 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         mMenuMoreView = findViewById(R.id.ic_widget_menu_more_list_tv);
         mMenuMoreView.setOnClickListener(OnMenuMoreCheck);
         mCameraView = findViewById(R.id.ic_widget_camera_tv);
+        imageGroup = (RelativeLayout) findViewById(R.id.image_group);
         mCameraView.setOnClickListener(this);
         mPhotoDialog = new PhotoDialog(this);
 
@@ -343,7 +346,7 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
             mMenuMoreView.setBackgroundResource(R.drawable.ic_widget_menu_more_list);
             mNoteImageAdapter.notifyDataSetChanged();
         } else {//展示大图
-
+            Logger.INSTANCE.e("lipy", "picIndex = " + picIndex);
             config.setNowThumbnailIndex(picIndex);
             config.setOriginImageList(wrapOriginImageViewList(listImage.size()));
 
@@ -672,18 +675,19 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
     @NonNull
     private List<ImageView> wrapOriginImageViewList(int size) {
         List<ImageView> originImgList = new ArrayList<>();
-        int firstItemPosition = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
 
-        if (size - firstItemPosition >= 0) {
-            //得到要更新的item的view
-            for (int i = 0; i < size; i++) {
 
-                if (linearLayoutManager.findViewByPosition(i) != null) {
-                    ImageView thumImg = (ImageView) ((RelativeLayout) linearLayoutManager.findViewByPosition(i)).getChildAt(0);
-                    originImgList.add(thumImg);
-                }
-            }
+        //得到要更新的item的view
+        for (int i = 0; i < size; i++) {
+//            if (linearLayoutManager.findViewByPosition(i) != null) {
+//                ImageView thumImg = (ImageView) ((RelativeLayout) linearLayoutManager.findViewByPosition(i)).getChildAt(0);
+//                originImgList.add(thumImg);
+//            }
+            ImageView imageView = new ImageView(this);
+            imageGroup.addView(imageView);
+            originImgList.add(imageView);
         }
+
         return originImgList;
     }
 }

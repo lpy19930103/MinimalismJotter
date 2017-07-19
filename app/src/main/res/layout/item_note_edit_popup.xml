@@ -19,36 +19,36 @@
             android:id="@+id/tv_note_list"
             style="@style/note_edit_popup_text"
             android:layout_below="@+id/tv_note_remind"
-            android:visibility="gone"
-            android:text="@string/note_edit_pop_list" />
+            android:text="@string/note_edit_pop_list"
+            android:visibility="gone" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/tv_note_send"
             style="@style/note_edit_popup_text"
             android:layout_below="@+id/tv_note_list"
-            android:text="@string/note_edit_pop_send" />
+            android:text="@string/note_edit_pop_send"
+            android:visibility="gone" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/tv_note_select"
             style="@style/note_edit_popup_text"
             android:layout_below="@+id/tv_note_send"
-            android:text="@string/note_edit_pop_select" />
+            android:text="@string/note_edit_pop_select"
+            android:visibility="gone" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/tv_note_detail"
             style="@style/note_edit_popup_text"
             android:layout_below="@+id/tv_note_select"
-            android:text="@string/note_edit_pop_detail" />
+            android:text="@string/note_edit_pop_detail"
+            android:visibility="gone" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/tv_note_delete"
             style="@style/note_edit_popup_text"
             android:layout_below="@+id/tv_note_detail"
-            android:text="@string/note_edit_pop_delete" />
+            android:text="@string/note_edit_pop_delete"
+            android:visibility="gone" />
     </RelativeLayout>
 
 

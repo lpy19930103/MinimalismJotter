@@ -113,6 +113,13 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+                    <RelativeLayout
+                        android:gravity="center"
+                        android:id="@+id/image_group"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    </RelativeLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -235,5 +242,4 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
-
 </LinearLayout>
