@@ -335,6 +335,7 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
             mNoteImageAdapter.notifyDataSetChanged();
         } else {//展示大图
             Logger.INSTANCE.e("lipy", "picIndex = " + picIndex);
+            Logger.INSTANCE.e("lipy", "listImage = " + listImage.get(picIndex)  + "listImage size = " + listImage.size());
             config = TransferConfig.build()
                     .setSourceImageList(listImage)
                     .setMissPlaceHolder(R.drawable.image_loading)

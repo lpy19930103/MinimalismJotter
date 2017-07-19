@@ -299,6 +299,9 @@ public class AlbumActivity extends Activity implements ListImageDirPopupWindow.O
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.putExtra("IMAGE_PATHS", paths);
+                setResult(RESULT_OK, intent);
                 finish();
             }
         });
