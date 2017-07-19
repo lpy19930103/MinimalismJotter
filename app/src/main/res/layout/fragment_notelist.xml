@@ -17,6 +17,7 @@
                 android:layout_height="wrap_content"/>
 
         <ImageView
+                android:background="@color/colorPrimary"
                 android:id="@+id/fab_"
                 android:layout_margin="15dp"
                 android:src="@mipmap/ic_edit_white"

@@ -10,6 +10,7 @@ import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,6 +23,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
@@ -29,6 +31,12 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.hitomi.glideloader.GlideImageLoader;
+import com.hitomi.tilibrary.style.index.NumberIndexIndicator;
+import com.hitomi.tilibrary.style.progress.ProgressPieIndicator;
+import com.hitomi.tilibrary.transfer.TransferConfig;
+import com.hitomi.tilibrary.transfer.Transferee;
 import com.lipy.jotter.R;
 import com.lipy.jotter.constants.Constant;
 import com.lipy.jotter.dao.NoteService;
@@ -160,6 +168,9 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
     };
     private NoteImageAdapter mNoteImageAdapter;
     private PhotoDialog mPhotoDialog;
+    private Transferee transferee;
+    private LinearLayoutManager linearLayoutManager;
+    private TransferConfig config;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,7 +191,7 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         if (StringUtils.isNotEmpty(imagePath) && !"[]".equals(imagePath)) {
             imagePathList = imagePath.replaceAll("[\\[\\]\\t\\r\\n\\s*]", "").split(",");
         }
-
+        transferee = Transferee.getDefault(this);
         initView();
         initViewData(mNote);
     }
@@ -216,7 +227,7 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         recodTime = (Chronometer) findViewById(R.id.record_time);
         mEtContent = (EditText) findViewById(R.id.et_content);
         mTvTime = (TextView) findViewById(R.id.tv_time);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(this);
         imageListView = (RecyclerView) findViewById(R.id.et_image_listview);
         imageListView.setLayoutManager(linearLayoutManager);
         voiceInfoItem = (RelativeLayout) findViewById(R.id.voice_info_item);
@@ -245,6 +256,20 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
             mTvTime.setVisibility(View.VISIBLE);
             recoderItem.setVisibility(View.GONE);
         }
+
+        //                        saveImageByGlide(imageView);
+        config = TransferConfig.build()
+                .setSourceImageList(listImage)
+                .setMissPlaceHolder(R.drawable.image_loading)
+                .setProgressIndicator(new ProgressPieIndicator())
+                .setImageLoader(GlideImageLoader.with(getApplicationContext()))
+                .setOnLongClcikListener(new Transferee.OnTransfereeLongClickListener() {
+                    @Override
+                    public void onLongClick(ImageView imageView, int pos) {
+//                        saveImageByGlide(imageView);
+                    }
+                })
+                .create();
 
         //图片列表
         getImagePathList();
@@ -318,8 +343,23 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
             mMenuMoreView.setBackgroundResource(R.drawable.ic_widget_menu_more_list);
             mNoteImageAdapter.notifyDataSetChanged();
         } else {//展示大图
-            mPhotoDialog.setImagePath((String) listImage.get(picIndex));
-            mPhotoDialog.show();
+
+            config.setNowThumbnailIndex(picIndex);
+            config.setOriginImageList(wrapOriginImageViewList(listImage.size()));
+
+            transferee.apply(config).show(new Transferee.OnTransfereeStateChangeListener() {
+                @Override
+                public void onShow() {
+//                    Glide.with(GlideNoThumActivity.this).pauseRequests();
+                }
+
+                @Override
+                public void onDismiss() {
+//                    Glide.with(GlideNoThumActivity.this).resumeRequests();
+                }
+            });
+//            mPhotoDialog.setImagePath((String) listImage.get(picIndex));
+//            mPhotoDialog.show();
         }
     }
 
@@ -611,5 +651,39 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onImageDelete(@NotNull String url) {
         showDeletePicDialog(url);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        transferee.destroy();
+    }
+
+    /**
+     * 包装缩略图 ImageView 集合
+     * <p>
+     * 注意：此方法只是为了收集 Activity 列表中所有可见 ImageView 好传递给 transferee。
+     * 如果你添加了一些图片路径，扩展了列表图片个数，让列表超出屏幕，导致一些 ImageViwe 不
+     * 可见，那么有可能这个方法会报错。这种情况，可以自己根据实际情况，来设置 transferee 的
+     * originImageList 属性值
+     *
+     * @return
+     */
+    @NonNull
+    private List<ImageView> wrapOriginImageViewList(int size) {
+        List<ImageView> originImgList = new ArrayList<>();
+        int firstItemPosition = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+
+        if (size - firstItemPosition >= 0) {
+            //得到要更新的item的view
+            for (int i = 0; i < size; i++) {
+
+                if (linearLayoutManager.findViewByPosition(i) != null) {
+                    ImageView thumImg = (ImageView) ((RelativeLayout) linearLayoutManager.findViewByPosition(i)).getChildAt(0);
+                    originImgList.add(thumImg);
+                }
+            }
+        }
+        return originImgList;
     }
 }
