@@ -178,6 +178,7 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_edit);
+        transferee = Transferee.getDefault(this);
         noteMode = getIntent().getIntExtra(Constant.INTENT_NOTE_MODE, Constant.CREATE_NOTE_MODE);
         mNote = (Note) getIntent().getSerializableExtra(Constant.INTENT_NOTE);
         if (mNote == null) {
@@ -193,7 +194,6 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         if (StringUtils.isNotEmpty(imagePath) && !"[]".equals(imagePath)) {
             imagePathList = imagePath.replaceAll("[\\[\\]\\t\\r\\n\\s*]", "").split(",");
         }
-        transferee = Transferee.getDefault(this);
         initView();
         initViewData(mNote);
     }
@@ -261,18 +261,6 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         }
 
         //                        saveImageByGlide(imageView);
-        config = TransferConfig.build()
-                .setSourceImageList(listImage)
-                .setMissPlaceHolder(R.drawable.image_loading)
-                .setProgressIndicator(new ProgressPieIndicator())
-                .setImageLoader(GlideImageLoader.with(getApplicationContext()))
-                .setOnLongClcikListener(new Transferee.OnTransfereeLongClickListener() {
-                    @Override
-                    public void onLongClick(ImageView imageView, int pos) {
-//                        saveImageByGlide(imageView);
-                    }
-                })
-                .create();
 
         //图片列表
         getImagePathList();
@@ -347,8 +335,20 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
             mNoteImageAdapter.notifyDataSetChanged();
         } else {//展示大图
             Logger.INSTANCE.e("lipy", "picIndex = " + picIndex);
-            config.setNowThumbnailIndex(picIndex);
-            config.setOriginImageList(wrapOriginImageViewList(listImage.size()));
+            config = TransferConfig.build()
+                    .setSourceImageList(listImage)
+                    .setMissPlaceHolder(R.drawable.image_loading)
+                    .setNowThumbnailIndex(picIndex)
+                    .setOriginImageList(wrapOriginImageViewList(listImage.size()))
+                    .setProgressIndicator(new ProgressPieIndicator())
+                    .setImageLoader(GlideImageLoader.with(this))
+                    .setOnLongClcikListener(new Transferee.OnTransfereeLongClickListener() {
+                        @Override
+                        public void onLongClick(ImageView imageView, int pos) {
+//                        saveImageByGlide(imageView);
+                        }
+                    })
+                    .create();
 
             transferee.apply(config).show(new Transferee.OnTransfereeStateChangeListener() {
                 @Override

@@ -40,6 +40,8 @@ dependencies {
     compile 'com.github.Hitomis.transferee:Transferee:v1.0.0'
     compile 'com.github.Hitomis.transferee:GlideLoader:v1.0.0' // load with glide
 
+    compile 'com.dingmouren.paletteimageview:paletteimageview:1.0.6'
+
 }
 repositories {
     mavenCentral()
