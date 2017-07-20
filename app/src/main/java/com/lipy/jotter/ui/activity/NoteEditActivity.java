@@ -35,6 +35,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.hitomi.glideloader.GlideImageLoader;
 import com.hitomi.tilibrary.style.index.NumberIndexIndicator;
+import com.hitomi.tilibrary.style.progress.ProgressBarIndicator;
 import com.hitomi.tilibrary.style.progress.ProgressPieIndicator;
 import com.hitomi.tilibrary.transfer.TransferConfig;
 import com.hitomi.tilibrary.transfer.Transferee;
@@ -66,6 +67,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 import static com.lipy.jotter.constants.Constant.EDIT_TO_LAUNCH_CAMERA;
 import static com.lipy.jotter.constants.StorageConfig.creatPicFile;
 import static com.lipy.jotter.constants.StorageConfig.creatVoiceFile;
@@ -178,7 +180,6 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_edit);
-        transferee = Transferee.getDefault(this);
         noteMode = getIntent().getIntExtra(Constant.INTENT_NOTE_MODE, Constant.CREATE_NOTE_MODE);
         mNote = (Note) getIntent().getSerializableExtra(Constant.INTENT_NOTE);
         if (mNote == null) {
@@ -194,6 +195,7 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
         if (StringUtils.isNotEmpty(imagePath) && !"[]".equals(imagePath)) {
             imagePathList = imagePath.replaceAll("[\\[\\]\\t\\r\\n\\s*]", "").split(",");
         }
+        transferee = Transferee.getDefault(this);
         initView();
         initViewData(mNote);
     }
@@ -259,8 +261,6 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
             mTvTime.setVisibility(View.VISIBLE);
             recoderItem.setVisibility(View.GONE);
         }
-
-        //                        saveImageByGlide(imageView);
 
         //图片列表
         getImagePathList();
@@ -335,31 +335,32 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
             mNoteImageAdapter.notifyDataSetChanged();
         } else {//展示大图
             Logger.INSTANCE.e("lipy", "picIndex = " + picIndex);
-            Logger.INSTANCE.e("lipy", "listImage = " + listImage.get(picIndex)  + "listImage size = " + listImage.size());
             config = TransferConfig.build()
-                    .setSourceImageList(listImage)
+                    .setImageLoader(GlideImageLoader.with(getApplicationContext()))
                     .setMissPlaceHolder(R.drawable.image_loading)
-                    .setNowThumbnailIndex(picIndex)
                     .setOriginImageList(wrapOriginImageViewList(listImage.size()))
-                    .setProgressIndicator(new ProgressPieIndicator())
-                    .setImageLoader(GlideImageLoader.with(this))
+                    .setSourceImageList(listImage)
+                    .setProgressIndicator(new ProgressBarIndicator())
+                    .setJustLoadHitImage(true)
                     .setOnLongClcikListener(new Transferee.OnTransfereeLongClickListener() {
                         @Override
                         public void onLongClick(ImageView imageView, int pos) {
-//                        saveImageByGlide(imageView);
+//                            saveImageByGlide(imageView);
                         }
                     })
                     .create();
 
+            config.setNowThumbnailIndex(picIndex);
+
             transferee.apply(config).show(new Transferee.OnTransfereeStateChangeListener() {
                 @Override
                 public void onShow() {
-//                    Glide.with(GlideNoThumActivity.this).pauseRequests();
+                    Glide.with(NoteEditActivity.this).pauseRequests();
                 }
 
                 @Override
                 public void onDismiss() {
-//                    Glide.with(GlideNoThumActivity.this).resumeRequests();
+                    Glide.with(NoteEditActivity.this).resumeRequests();
                 }
             });
 //            mPhotoDialog.setImagePath((String) listImage.get(picIndex));
@@ -680,15 +681,16 @@ public class NoteEditActivity extends BaseActivity implements View.OnClickListen
 
         //得到要更新的item的view
         for (int i = 0; i < size; i++) {
-//            if (linearLayoutManager.findViewByPosition(i) != null) {
-//                ImageView thumImg = (ImageView) ((RelativeLayout) linearLayoutManager.findViewByPosition(i)).getChildAt(0);
-//                originImgList.add(thumImg);
-//            }
-            ImageView imageView = new ImageView(this);
-            imageGroup.addView(imageView);
-            originImgList.add(imageView);
+            if (linearLayoutManager.findViewByPosition(i) != null) {
+                ImageView thumImg = (ImageView) ((RelativeLayout) linearLayoutManager.findViewByPosition(i)).getChildAt(0);
+                originImgList.add(thumImg);
+            }else{
+                ImageView imageView = new ImageView(this);
+                imageView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT));
+                imageGroup.addView(imageView);
+                originImgList.add(imageView);
+            }
         }
-
         return originImgList;
     }
 }

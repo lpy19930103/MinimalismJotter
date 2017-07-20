@@ -1,5 +1,6 @@
 package com.lipy.jotter.ui.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
@@ -67,6 +68,7 @@ public class NoteImageAdapter extends BaseAdapter<String> {
         if (StringUtils.isNotEmpty(path)) {
             Glide.with(mContext)
                     .load(new File(path))
+//                    .load(path)
                     .placeholder(mContext.getResources().getDrawable(R.drawable.image_loading))
                     .error(mContext.getResources().getDrawable(R.drawable.image_loading))
                     .centerCrop()
