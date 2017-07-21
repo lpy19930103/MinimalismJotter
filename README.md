@@ -6,6 +6,7 @@
 已使用框架：rxjava、greendao、glide
 
 ## version
+v 1.0.3 整体优化（图片预览功能，部分代码优化）
 
 V 1.0.2 增加笔记分类功能
 
