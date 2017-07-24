@@ -7,8 +7,6 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
 import android.view.*
 import android.widget.*
-import com.evernote.client.android.EvernoteSession
-import com.evernote.edam.type.User
 import com.lipy.jotter.R
 import com.lipy.jotter.dao.NoteService
 import com.lipy.jotter.dao.TagService
@@ -16,7 +14,6 @@ import com.lipy.jotter.dao.daocore.Note
 import com.lipy.jotter.dao.daocore.Tag
 import com.lipy.jotter.ui.adapter.ToggleMenuAdapter
 import com.lipy.jotter.ui.fragment.NoteListFragment
-import com.lipy.jotter.utils.EvernoteManager
 import com.lipy.jotter.utils.Logger
 import io.reactivex.Observable
 import io.reactivex.ObservableOnSubscribe
@@ -27,12 +24,7 @@ import io.reactivex.schedulers.Schedulers
  * 首页
  * Created by lipy on 2017/3/6.
  */
-class NoteListActivity : BaseActivity(), View.OnClickListener, EvernoteManager.EvernoteListener {
-
-    override fun getUser(user: User) {
-        (findViewById(R.id.tv_cancle) as TextView).text = "Evernote：" + user.username
-    }
-
+class NoteListActivity : BaseActivity(), View.OnClickListener{
 
     private var mToolbar: Toolbar? = null
     private var mNoteListFragment: NoteListFragment? = null
@@ -104,10 +96,6 @@ class NoteListActivity : BaseActivity(), View.OnClickListener, EvernoteManager.E
 
     override fun onResume() {
         super.onResume()
-        if (EvernoteSession.getInstance().isLoggedIn) {
-            EvernoteManager.getInstance()!!.setEvernoteListener(this)!!.getUser()
-        }
-
         if (tvallthing != null) {
             tvallthing!!.text = NoteService.loadAll().size.toString()
         }

@@ -1,6 +1,5 @@
 package com.lipy.jotter.constants;
 
-import com.evernote.client.android.EvernoteSession;
 
 /**
  * 常用常量
@@ -10,7 +9,6 @@ public class Constant {
 
     public static final String CONSUMER_KEY = "lipengyuan";
     public static final String CONSUMER_SECRET = "66bbadc2ccfdca67";
-    public static final EvernoteSession.EvernoteService EVERNOTE_SERVICE = EvernoteSession.EvernoteService.SANDBOX;
 
     //笔记状态
     public final static String INTENT_NOTE_MODE = "NOTE_MODE";
