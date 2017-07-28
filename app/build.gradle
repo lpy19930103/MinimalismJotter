@@ -35,10 +35,10 @@ dependencies {
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.18'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.github.mcxtzhang:PathAnimView:V1.0.0'
-
     compile 'com.github.Hitomis.transferee:Transferee:v1.0.0'
-    compile 'com.github.Hitomis.transferee:GlideLoader:v1.0.0' // load with glide
-
+    compile 'com.github.Hitomis.transferee:GlideLoader:v1.0.0'
+    // load with glide
+    compile files('lib/libynotesdk.jar')
 }
 repositories {
     mavenCentral()
